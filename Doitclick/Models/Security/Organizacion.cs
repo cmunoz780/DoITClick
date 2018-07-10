@@ -9,5 +9,7 @@ namespace Doitclick.Models.Security
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+
+        public List<Rol> Roles { get; set; }
     }
 }
