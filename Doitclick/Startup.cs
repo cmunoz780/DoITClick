@@ -29,6 +29,8 @@ namespace Doitclick
             services.AddCors();
             services.AddDbContext<ApplicationDbContext>(options=> options.UseMySql(Configuration.GetConnectionString("DoItClickConnection")));
             services.AddDbContext<SecurityDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DoItClickConnection")));
+            services.AddDbContext<WorkflowDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DoItClickConnection")));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -52,7 +54,6 @@ namespace Doitclick
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

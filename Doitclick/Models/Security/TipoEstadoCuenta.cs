@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace Doitclick.Models.Security
 {
-    public class UsuarioTokens
+    public enum TipoEstadoCuenta
     {
+        Validar,
+        Activa,
+        Baneada,
+        Bloqueada
+        
     }
 }
