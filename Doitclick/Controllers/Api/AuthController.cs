@@ -9,13 +9,7 @@ namespace Doitclick.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class AuthController : ControllerBase
     {
-        [HttpGet]
-        [Route("/{id}")]
-        public string get(int id)
-        {
-            return "Hola " + id.ToString();
-        }
     }
 }
