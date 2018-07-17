@@ -8,7 +8,7 @@ namespace Doitclick.Controllers
 {
     public class AccesoController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
