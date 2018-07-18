@@ -62,7 +62,8 @@ namespace Doitclick
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    //template: "{controller=Acceso}/{action=Login}/{id?}");
+                    template: "{controller=Acceso}/{action=Login}/{id?}");
             });
         }
     }
