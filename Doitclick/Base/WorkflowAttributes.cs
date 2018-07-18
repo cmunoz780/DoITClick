@@ -11,6 +11,5 @@ namespace Doitclick.Base
         public string Proceso { get; set; }
         public int NumeroSolicitud { get; set; }
         public string Etapa { get; set; }
-
     }
 }

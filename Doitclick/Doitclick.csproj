@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>3f3a4392-5801-43d3-8e90-5ac0e14e85a9</UserSecretsId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,15 +21,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Application\" />
-    <Folder Include="Services\Notification\" />
+    <Folder Include="Services\Application\" />
     <Folder Include="Services\Workflow\" />
+    <Folder Include="Views\MantenedorServicio\" />
     <Folder Include="wwwroot\Assets\plugins\flot-charts\examples\gauge\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <None Include="wwwroot\Assets\css\bootstrap.min.css.map" />
     <None Include="wwwroot\Assets\css\demo\fonts\nifty-demo-icons.svg" />
     <None Include="wwwroot\Assets\fonts\glyphicons-halflings-regular.svg" />
@@ -1535,6 +1542,13 @@
     <Content Update="Views\MantenedorUsuario\Listado.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
