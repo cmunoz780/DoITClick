@@ -62,7 +62,8 @@ namespace Doitclick.Controllers.Api
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, infoUsuario.Identificacion),
-                //new Claim("miValor", "Lo que yo quiera"),
+                new Claim("Nombre", infoUsuario.Nombres),
+                new Claim("Correo", infoUsuario.Correo),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -84,6 +85,39 @@ namespace Doitclick.Controllers.Api
                 expiration
             });
 
+        }
+
+
+        [Route("Create")]
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] InfoUsuario model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = new Usuario { UserName = model.Identificacion, Email = model.Correo, Identificador = model.Identificacion, Nombres = model.Nombres};
+                var result = await _userManager.CreateAsync(user, model.Llave);
+                if (result.Succeeded)
+                {
+                    return BuildToken(model);
+                }
+                else
+                {
+                    return BadRequest("Username or password invalid");
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
+        }
+
+        [Route("Test")]
+        [HttpGet]
+        public IActionResult Test()
+        {
+            return Ok("Tamos papurry");
         }
 
     }

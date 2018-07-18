@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+    <script src="~/Assets/js/jquery.min.js"></script>
+    <script>
+        $(function () { 
+
+            $("#frm").on("submit", function () { 
+
+                console.log($(this).serialize());
+                $.post("/api/auth/Create", $(this).serialize(), function (resolve) {
+                    console.log(resolve);
+                 })
+
+                return false;
+            })
+
+        });
+    </script>
+</head>
+<body>
+    <form id="frm">
+        <div>
+            <input name="Nombres" type="text" placeholder="Nombres" />
+        </div>
+        <div>
+            <input name="Identificacion" type="text" placeholder="Rut" />
+        </div>
+        <div>
+            <input name="Correo" type="text" placeholder="Correo" />
+        </div>
+        <div>
+            <input name="Llave" type="text" placeholder="Clave" />
+        </div>
+
+        <div>
+            <button>Guardar</button>
+        </div>
+    </form>
+</body>
+</html>
