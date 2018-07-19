@@ -13,12 +13,57 @@
     <script>
         $(function () { 
 
+            /*const model = {
+                Nombre: "Admin",
+                OrganizacionId: "1",
+                PadreId: ""
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Auth/Role/Create",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) { console.log(data); },
+                failure: function (errMsg) {
+                    console.log(errMsg);
+                }
+            });*/
+
+
+
             $("#frm").on("submit", function () { 
 
                 console.log($(this).serialize());
-                $.post("/api/auth/Create", $(this).serialize(), function (resolve) {
+
+
+                const model = {
+                    Nombres: $("#Nombres").val(),
+                    Identificacion: $("#Identificacion").val(),
+                    Correo: $("#Correo").val(),
+                    Llave: $("#Llave").val()
+                }
+
+                console.log(model)
+
+
+                /*$.post("/api/Auth/Create", model, function (resolve) {
                     console.log(resolve);
-                 })
+                 })*/
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Auth/User/Create",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) { console.log(data); },
+                    failure: function (errMsg) {
+                        console.log(errMsg);
+                    }
+                });
 
                 return false;
             })
@@ -29,16 +74,16 @@
 <body>
     <form id="frm">
         <div>
-            <input name="Nombres" type="text" placeholder="Nombres" />
+            <input name="Nombres" id="Nombres" type="text" placeholder="Nombres" />
         </div>
         <div>
-            <input name="Identificacion" type="text" placeholder="Rut" />
+            <input name="Identificacion" id="Identificacion" type="text" placeholder="Rut" />
         </div>
         <div>
-            <input name="Correo" type="text" placeholder="Correo" />
+            <input name="Correo" id="Correo" type="text" placeholder="Correo" />
         </div>
         <div>
-            <input name="Llave" type="text" placeholder="Clave" />
+            <input name="Llave" id="Llave" type="text" placeholder="Clave" />
         </div>
 
         <div>
