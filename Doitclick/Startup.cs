@@ -111,9 +111,9 @@ namespace Doitclick
             app.UseCookiePolicy();
             app.UseAuthentication();
 
-            app.UseSignalR(routes => {
-                routes.MapHub<PushHub>("/hubs/push");
-            });
+            //app.UseSignalR(routes => {
+            //    routes.MapHub<PushHub>("/hubs/push");
+            //});
 
             app.UseMvc(routes =>
             {

@@ -22,6 +22,9 @@ namespace Doitclick.Data
         public DbSet<Tarea> Tareas { get; set; }
         public DbSet<Transito> Transiciones { get; set; }
 
+        public DbSet<Cliente> cliente { get; set; }
+        public DbSet<PrevisionSalud> previsionsalud { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
