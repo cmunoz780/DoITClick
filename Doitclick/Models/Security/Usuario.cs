@@ -12,7 +12,7 @@ namespace Doitclick.Models.Security
         public TipoEstadoCuenta EstadoCuenta { get; set; }
         public string TokenRecuerdaAcceso { get; set; }
         public bool Eliminado { get; set; }
+        public string Nombres { get; set; }
 
-        
     }
 }

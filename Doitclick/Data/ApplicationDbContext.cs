@@ -57,8 +57,8 @@ namespace Doitclick.Data
             builder.Entity<Organizacion>()
                 .Property(o => o.TipoOrganizacion)
                 .HasConversion(
-                    c => c.ToString(),
-                    c => Enum.Parse<TipoOrganizacion>(c)
+                    c => ((char)c).ToString(),
+                    c => (TipoOrganizacion)char.Parse(c)
                 )
                 .IsRequired();
 
