@@ -22,6 +22,9 @@ namespace Doitclick.Data
         public DbSet<Tarea> Tareas { get; set; }
         public DbSet<Transito> Transiciones { get; set; }
 
+        public DbSet<Cliente> cliente { get; set; }
+        public DbSet<PrevisionSalud> previsionsalud { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -57,8 +60,8 @@ namespace Doitclick.Data
             builder.Entity<Organizacion>()
                 .Property(o => o.TipoOrganizacion)
                 .HasConversion(
-                    c => c.ToString(),
-                    c => Enum.Parse<TipoOrganizacion>(c)
+                    c => ((char)c).ToString(),
+                    c => (TipoOrganizacion)char.Parse(c)
                 )
                 .IsRequired();
 
