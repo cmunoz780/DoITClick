@@ -56,7 +56,7 @@ namespace Doitclick
                         ClockSkew = TimeSpan.Zero
                     };
 
-                    options.Events = new JwtBearerEvents
+                    /*options.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>
                         {
@@ -72,7 +72,7 @@ namespace Doitclick
                             }
                             return Task.CompletedTask;
                         }
-                    };
+                    };*/
                 });
 
 
@@ -83,7 +83,7 @@ namespace Doitclick
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddSignalRCore();
+            //services.AddSignalRCore();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(ConfigureJson);
         }
 
@@ -111,15 +111,21 @@ namespace Doitclick
             app.UseCookiePolicy();
             app.UseAuthentication();
 
+
             //app.UseSignalR(routes => {
             //    routes.MapHub<PushHub>("/hubs/push");
             //});
+            /*app.UseSignalR(routes => {
+                routes.MapHub<PushHub>("/hubs/push");
+            });*/
+
+
 
             app.UseMvc(routes =>
             {
+                
                 routes.MapRoute(
                     name: "default",
-                    //template: "{controller=Acceso}/{action=Login}/{id?}");
                     template: "{controller=Acceso}/{action=Login}/{id?}");
             });
 
