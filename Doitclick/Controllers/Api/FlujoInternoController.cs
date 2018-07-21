@@ -33,10 +33,10 @@ namespace Doitclick.Controllers.Api
                 Rut = paciente.RutPaciente,
                 TipoCliente = TipoCliente.Paciente,
                 EsPersonalidadJuridica = false,
-                PrevisionSalud = _context.previsionsalud.Where(p => p.Id == 1).FirstOrDefault()
+                PrevisionSalud = _context.PrevisionesSalud.Where(p => p.Id == 1).FirstOrDefault()
             };
 
-            _context.cliente.Add(_paciente);
+            _context.Clientes.Add(_paciente);
 
 
             var respuesta = await _context.SaveChangesAsync();
@@ -51,7 +51,7 @@ namespace Doitclick.Controllers.Api
         public IActionResult ListarPacientes()
         {
 
-            var clientes = _context.cliente;
+            var clientes = _context.Clientes;
             
             return Ok(clientes);
 

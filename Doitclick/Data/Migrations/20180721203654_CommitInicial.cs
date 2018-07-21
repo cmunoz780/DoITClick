@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Doitclick.Data.Migrations
 {
-    public partial class CreateApplicationInitialSchema : Migration
+    public partial class CommitInicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "MaterialDisponible",
+                name: "MaterialesDiponibles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -21,7 +21,7 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MaterialDisponible", x => x.Id);
+                    table.PrimaryKey("PK_MaterialesDiponibles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,7 +46,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrevisionSalud",
+                name: "PrevisionesSalud",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -55,7 +55,7 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrevisionSalud", x => x.Id);
+                    table.PrimaryKey("PK_PrevisionesSalud", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,7 +77,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Servicio",
+                name: "Servicios",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -93,7 +93,7 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Servicio", x => x.Id);
+                    table.PrimaryKey("PK_Servicios", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,7 +118,8 @@ namespace Doitclick.Data.Migrations
                     Identificador = table.Column<string>(nullable: true),
                     EstadoCuenta = table.Column<int>(nullable: false),
                     TokenRecuerdaAcceso = table.Column<string>(nullable: true),
-                    Eliminado = table.Column<bool>(nullable: false)
+                    Eliminado = table.Column<bool>(nullable: false),
+                    Nombres = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,7 +127,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MovimientoMaterialDisponoble",
+                name: "MovimientosMaterialesDisponibles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -141,11 +142,11 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovimientoMaterialDisponoble", x => x.Id);
+                    table.PrimaryKey("PK_MovimientosMaterialesDisponibles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MovimientoMaterialDisponoble_MaterialDisponible_MaterialDisp~",
+                        name: "FK_MovimientosMaterialesDisponibles_MaterialesDiponibles_Materi~",
                         column: x => x.MaterialDisponibleId,
-                        principalTable: "MaterialDisponible",
+                        principalTable: "MaterialesDiponibles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -180,7 +181,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cliente",
+                name: "Clientes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -193,11 +194,11 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cliente", x => x.Id);
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cliente_PrevisionSalud_PrevisionSaludId",
+                        name: "FK_Clientes_PrevisionesSalud_PrevisionSaludId",
                         column: x => x.PrevisionSaludId,
-                        principalTable: "PrevisionSalud",
+                        principalTable: "PrevisionesSalud",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -256,7 +257,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MaterialPresupuestado",
+                name: "MaterialesPresupuestados",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -267,17 +268,17 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MaterialPresupuestado", x => x.Id);
+                    table.PrimaryKey("PK_MaterialesPresupuestados", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MaterialPresupuestado_MaterialDisponible_MaterialDisponibleId",
+                        name: "FK_MaterialesPresupuestados_MaterialesDiponibles_MaterialDispon~",
                         column: x => x.MaterialDisponibleId,
-                        principalTable: "MaterialDisponible",
+                        principalTable: "MaterialesDiponibles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MaterialPresupuestado_Servicio_ServicioId",
+                        name: "FK_MaterialesPresupuestados_Servicios_ServicioId",
                         column: x => x.ServicioId,
-                        principalTable: "Servicio",
+                        principalTable: "Servicios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -303,7 +304,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReclamosUsuarios",
+                name: "NotificacionesUsuarios",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -314,9 +315,9 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReclamosUsuarios", x => x.Id);
+                    table.PrimaryKey("PK_NotificacionesUsuarios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReclamosUsuarios_Usuarios_UserId",
+                        name: "FK_NotificacionesUsuarios_Usuarios_UserId",
                         column: x => x.UserId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
@@ -344,7 +345,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReclamosRoles",
+                name: "NotificacionesRoles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -355,9 +356,9 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReclamosRoles", x => x.Id);
+                    table.PrimaryKey("PK_NotificacionesRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReclamosRoles_Roles_RoleId",
+                        name: "FK_NotificacionesRoles_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
@@ -389,7 +390,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contacto",
+                name: "Contactos",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -401,17 +402,17 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contacto", x => x.Id);
+                    table.PrimaryKey("PK_Contactos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contacto_Cliente_ClienteId",
+                        name: "FK_Contactos_Clientes_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Cliente",
+                        principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cotizacion",
+                name: "Cotizaciones",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -425,17 +426,17 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cotizacion", x => x.Id);
+                    table.PrimaryKey("PK_Cotizaciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cotizacion_Cliente_ClienteId",
+                        name: "FK_Cotizaciones_Clientes_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Cliente",
+                        principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CuentaCorriente",
+                name: "CuentasCorrientes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -445,17 +446,17 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CuentaCorriente", x => x.Id);
+                    table.PrimaryKey("PK_CuentasCorrientes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CuentaCorriente_Cliente_ClienteId",
+                        name: "FK_CuentasCorrientes_Clientes_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Cliente",
+                        principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MetaDatosCliente",
+                name: "MetadatosClientes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -467,17 +468,17 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MetaDatosCliente", x => x.Id);
+                    table.PrimaryKey("PK_MetadatosClientes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MetaDatosCliente_Cliente_ClienteId",
+                        name: "FK_MetadatosClientes_Clientes_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Cliente",
+                        principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TareaAutomatica",
+                name: "TareasAutomaticas",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -492,9 +493,9 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TareaAutomatica", x => x.Id);
+                    table.PrimaryKey("PK_TareasAutomaticas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TareaAutomatica_Etapas_EtapaId",
+                        name: "FK_TareasAutomaticas_Etapas_EtapaId",
                         column: x => x.EtapaId,
                         principalTable: "Etapas",
                         principalColumn: "Id",
@@ -563,7 +564,7 @@ namespace Doitclick.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MetaDatosContacto",
+                name: "MetadatosContactos",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -575,17 +576,17 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MetaDatosContacto", x => x.Id);
+                    table.PrimaryKey("PK_MetadatosContactos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MetaDatosContacto_Contacto_ContactoId",
+                        name: "FK_MetadatosContactos_Contactos_ContactoId",
                         column: x => x.ContactoId,
-                        principalTable: "Contacto",
+                        principalTable: "Contactos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemCotizar",
+                name: "ItemsCorizar",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -595,23 +596,23 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemCotizar", x => x.Id);
+                    table.PrimaryKey("PK_ItemsCorizar", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItemCotizar_Cotizacion_CotizacionId",
+                        name: "FK_ItemsCorizar_Cotizaciones_CotizacionId",
                         column: x => x.CotizacionId,
-                        principalTable: "Cotizacion",
+                        principalTable: "Cotizaciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ItemCotizar_Servicio_ServicioId",
+                        name: "FK_ItemsCorizar_Servicios_ServicioId",
                         column: x => x.ServicioId,
-                        principalTable: "Servicio",
+                        principalTable: "Servicios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MovimientoCuentaCorriente",
+                name: "MovimientosCuentasCorrientes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -627,11 +628,11 @@ namespace Doitclick.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovimientoCuentaCorriente", x => x.Id);
+                    table.PrimaryKey("PK_MovimientosCuentasCorrientes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MovimientoCuentaCorriente_CuentaCorriente_CuentaCorrienteId",
+                        name: "FK_MovimientosCuentasCorrientes_CuentasCorrientes_CuentaCorrien~",
                         column: x => x.CuentaCorrienteId,
-                        principalTable: "CuentaCorriente",
+                        principalTable: "CuentasCorrientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -642,23 +643,23 @@ namespace Doitclick.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cliente_PrevisionSaludId",
-                table: "Cliente",
+                name: "IX_Clientes_PrevisionSaludId",
+                table: "Clientes",
                 column: "PrevisionSaludId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contacto_ClienteId",
-                table: "Contacto",
+                name: "IX_Contactos_ClienteId",
+                table: "Contactos",
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cotizacion_ClienteId",
-                table: "Cotizacion",
+                name: "IX_Cotizaciones_ClienteId",
+                table: "Cotizaciones",
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CuentaCorriente_ClienteId",
-                table: "CuentaCorriente",
+                name: "IX_CuentasCorrientes_ClienteId",
+                table: "CuentasCorrientes",
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
@@ -667,59 +668,59 @@ namespace Doitclick.Data.Migrations
                 column: "ProcesoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemCotizar_CotizacionId",
-                table: "ItemCotizar",
+                name: "IX_ItemsCorizar_CotizacionId",
+                table: "ItemsCorizar",
                 column: "CotizacionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemCotizar_ServicioId",
-                table: "ItemCotizar",
+                name: "IX_ItemsCorizar_ServicioId",
+                table: "ItemsCorizar",
                 column: "ServicioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MaterialPresupuestado_MaterialDisponibleId",
-                table: "MaterialPresupuestado",
+                name: "IX_MaterialesPresupuestados_MaterialDisponibleId",
+                table: "MaterialesPresupuestados",
                 column: "MaterialDisponibleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MaterialPresupuestado_ServicioId",
-                table: "MaterialPresupuestado",
+                name: "IX_MaterialesPresupuestados_ServicioId",
+                table: "MaterialesPresupuestados",
                 column: "ServicioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetaDatosCliente_ClienteId",
-                table: "MetaDatosCliente",
+                name: "IX_MetadatosClientes_ClienteId",
+                table: "MetadatosClientes",
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetaDatosContacto_ContactoId",
-                table: "MetaDatosContacto",
+                name: "IX_MetadatosContactos_ContactoId",
+                table: "MetadatosContactos",
                 column: "ContactoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovimientoCuentaCorriente_CuentaCorrienteId",
-                table: "MovimientoCuentaCorriente",
+                name: "IX_MovimientosCuentasCorrientes_CuentaCorrienteId",
+                table: "MovimientosCuentasCorrientes",
                 column: "CuentaCorrienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovimientoMaterialDisponoble_MaterialDisponibleId",
-                table: "MovimientoMaterialDisponoble",
+                name: "IX_MovimientosMaterialesDisponibles_MaterialDisponibleId",
+                table: "MovimientosMaterialesDisponibles",
                 column: "MaterialDisponibleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NotificacionesRoles_RoleId",
+                table: "NotificacionesRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NotificacionesUsuarios_UserId",
+                table: "NotificacionesUsuarios",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Organizaciones_PadreId",
                 table: "Organizaciones",
                 column: "PadreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReclamosRoles_RoleId",
-                table: "ReclamosRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReclamosUsuarios_UserId",
-                table: "ReclamosUsuarios",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -759,11 +760,6 @@ namespace Doitclick.Data.Migrations
                 column: "ProcesoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TareaAutomatica_EtapaId",
-                table: "TareaAutomatica",
-                column: "EtapaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tareas_EtapaId",
                 table: "Tareas",
                 column: "EtapaId");
@@ -772,6 +768,11 @@ namespace Doitclick.Data.Migrations
                 name: "IX_Tareas_SolicitudId",
                 table: "Tareas",
                 column: "SolicitudId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TareasAutomaticas_EtapaId",
+                table: "TareasAutomaticas",
+                column: "EtapaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transiciones_EtapaActaualId",
@@ -801,37 +802,37 @@ namespace Doitclick.Data.Migrations
                 name: "AccesosUsuarios");
 
             migrationBuilder.DropTable(
-                name: "ItemCotizar");
+                name: "ItemsCorizar");
 
             migrationBuilder.DropTable(
-                name: "MaterialPresupuestado");
+                name: "MaterialesPresupuestados");
 
             migrationBuilder.DropTable(
-                name: "MetaDatosCliente");
+                name: "MetadatosClientes");
 
             migrationBuilder.DropTable(
-                name: "MetaDatosContacto");
+                name: "MetadatosContactos");
 
             migrationBuilder.DropTable(
-                name: "MovimientoCuentaCorriente");
+                name: "MovimientosCuentasCorrientes");
 
             migrationBuilder.DropTable(
-                name: "MovimientoMaterialDisponoble");
+                name: "MovimientosMaterialesDisponibles");
 
             migrationBuilder.DropTable(
-                name: "ReclamosRoles");
+                name: "NotificacionesRoles");
 
             migrationBuilder.DropTable(
-                name: "ReclamosUsuarios");
+                name: "NotificacionesUsuarios");
 
             migrationBuilder.DropTable(
                 name: "RolesUsuarios");
 
             migrationBuilder.DropTable(
-                name: "TareaAutomatica");
+                name: "Tareas");
 
             migrationBuilder.DropTable(
-                name: "Tareas");
+                name: "TareasAutomaticas");
 
             migrationBuilder.DropTable(
                 name: "TokensUsuarios");
@@ -840,19 +841,19 @@ namespace Doitclick.Data.Migrations
                 name: "Transiciones");
 
             migrationBuilder.DropTable(
-                name: "Cotizacion");
+                name: "Cotizaciones");
 
             migrationBuilder.DropTable(
-                name: "Servicio");
+                name: "Servicios");
 
             migrationBuilder.DropTable(
-                name: "Contacto");
+                name: "Contactos");
 
             migrationBuilder.DropTable(
-                name: "CuentaCorriente");
+                name: "CuentasCorrientes");
 
             migrationBuilder.DropTable(
-                name: "MaterialDisponible");
+                name: "MaterialesDiponibles");
 
             migrationBuilder.DropTable(
                 name: "Roles");
@@ -867,7 +868,7 @@ namespace Doitclick.Data.Migrations
                 name: "Etapas");
 
             migrationBuilder.DropTable(
-                name: "Cliente");
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "Organizaciones");
@@ -876,7 +877,7 @@ namespace Doitclick.Data.Migrations
                 name: "Procesos");
 
             migrationBuilder.DropTable(
-                name: "PrevisionSalud");
+                name: "PrevisionesSalud");
         }
     }
 }

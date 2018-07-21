@@ -20,10 +20,23 @@ namespace Doitclick.Data
         public DbSet<Proceso> Procesos { get; set; }
         public DbSet<Solicitud> Solicitudes { get; set; }
         public DbSet<Tarea> Tareas { get; set; }
+        public DbSet<TareaAutomatica> TareasAutomaticas { get; set; }
         public DbSet<Transito> Transiciones { get; set; }
 
-        public DbSet<Cliente> cliente { get; set; }
-        public DbSet<PrevisionSalud> previsionsalud { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<PrevisionSalud> PrevisionesSalud { get; set; }
+        public DbSet<Contacto> Contactos { get; set; }
+        public DbSet<Cotizacion> Cotizaciones { get; set; }
+        public DbSet<CuentaCorriente> CuentasCorrientes { get; set; }
+        public DbSet<ItemCotizar> ItemsCorizar { get; set; }
+        public DbSet<MaterialDisponible> MaterialesDiponibles { get; set; }
+        public DbSet<MaterialPresupuestado> MaterialesPresupuestados { get; set; }
+        public DbSet<MetaDatosCliente> MetadatosClientes { get; set; }
+        public DbSet<MetaDatosContacto> MetadatosContactos { get; set; }
+        public DbSet<MovimientoCuentaCorriente> MovimientosCuentasCorrientes { get; set; }
+        public DbSet<MovimientoMaterialDisponoble> MovimientosMaterialesDisponibles { get; set; }
+        public DbSet<Servicio> Servicios { get; set; }
+        
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -37,11 +50,14 @@ namespace Doitclick.Data
             /*Identity*/
             builder.Entity<Usuario>().ToTable("Usuarios");
             builder.Entity<Rol>().ToTable("Roles");
-            builder.Entity<IdentityUserClaim<string>>().ToTable("ReclamosUsuarios");
+            builder.Entity<IdentityUserClaim<string>>().ToTable("NotificacionesUsuarios");
             builder.Entity<IdentityUserRole<string>>().ToTable("RolesUsuarios");
             builder.Entity<IdentityUserLogin<string>>().ToTable("AccesosUsuarios");
-            builder.Entity<IdentityRoleClaim<string>>().ToTable("ReclamosRoles");
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("NotificacionesRoles");
             builder.Entity<IdentityUserToken<string>>().ToTable("TokensUsuarios");
+
+            
+
 
             builder.Entity<Organizacion>()
                 .HasMany(f => f.Roles)
@@ -182,10 +198,6 @@ namespace Doitclick.Data
                 .HasMany(t => t.Clientes)
                 .WithOne(c => c.PrevisionSalud)
                 .IsRequired();
-
-
-
-
 
         }
     }
