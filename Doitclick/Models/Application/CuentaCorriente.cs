@@ -10,6 +10,6 @@ namespace Doitclick.Models.Application
         public int Id { get; set; }
         public string Numero { get; set; }
         public Cliente Cliente { get; set; }
-        public IEnumerable<MovimientoCuentaCorriente> Movimientos { get; set; }
+        public ICollection<MovimientoCuentaCorriente> Movimientos { get; set; }
     }
 }

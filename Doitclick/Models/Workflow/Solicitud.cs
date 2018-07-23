@@ -11,11 +11,12 @@ namespace Doitclick.Models.Workflow
         public int Id { get; set; }
         public string NumeroTicket { get; set; }
         public Proceso Proceso { get; set; }
+        public EstadoSolicitud Estado { get; set; }
         public string Resumen { get; set; }
         public string InstanciadoPor { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime? FechaTermino { get; set; }
 
-        public IEnumerable<Tarea> Tareas { get; set; }
+        public ICollection<Tarea> Tareas { get; set; }
     }
 }
