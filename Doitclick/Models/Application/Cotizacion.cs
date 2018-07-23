@@ -14,6 +14,11 @@ namespace Doitclick.Models.Application
         public string NumeroTicket { get; set; }
         public string Resumen { get; set; }
         public int PrecioCotizacion { get; set; }
-        public IEnumerable<ItemCotizar> ItemsCotizar { get; set; }
+
+        public string DrSolicitante { get; set; }
+        public string FolioSolicitante { get; set; }
+        public bool EsOT { get; set; }
+
+        public ICollection<ItemCotizar> ItemsCotizar { get; set; }
     }
 }

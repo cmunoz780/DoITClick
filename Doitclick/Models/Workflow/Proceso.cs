@@ -14,7 +14,7 @@ namespace Doitclick.Models.Workflow
         public string ClaseGeneraTickets { get; set; }
         public string MetodoGeneraTickets { get; set; }
         public bool Activo { get; set; }
-        public IEnumerable<Etapa> Etapas { get; set; }
-        public IEnumerable<Solicitud> Solicitudes { get; set; }
+        public ICollection<Etapa> Etapas { get; set; }
+        public ICollection<Solicitud> Solicitudes { get; set; }
     }
 }

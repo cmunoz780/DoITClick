@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Doitclick.Models.Workflow
 {
-    public enum TipoEventoEtapa
+    public enum EstadoSolicitud
     {
-        NoSeteado,
-        AlActivar,
-        AlFinalizar,
-        AlActivaryFinalizar
+        Activada,
+        Iniciada,
+        Abortada,
+        Finalizada
     }
 }

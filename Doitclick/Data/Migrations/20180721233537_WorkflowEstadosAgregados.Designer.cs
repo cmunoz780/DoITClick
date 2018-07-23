@@ -3,14 +3,16 @@ using System;
 using Doitclick.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Doitclick.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180721233537_WorkflowEstadosAgregados")]
+    partial class WorkflowEstadosAgregados
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,15 +69,9 @@ namespace Doitclick.Data.Migrations
 
                     b.Property<int?>("ClienteId");
 
-                    b.Property<string>("DrSolicitante");
-
-                    b.Property<bool>("EsOT");
-
                     b.Property<DateTime>("FechaCreacion");
 
                     b.Property<DateTime>("FechaExpiracion");
-
-                    b.Property<string>("FolioSolicitante");
 
                     b.Property<string>("NumeroTicket");
 
@@ -476,8 +472,7 @@ namespace Doitclick.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                        .IsRequired();
 
                     b.Property<DateTime>("FechaInicio");
 
@@ -515,8 +510,7 @@ namespace Doitclick.Data.Migrations
                     b.Property<string>("EjecutadoPor");
 
                     b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                        .IsRequired();
 
                     b.Property<int?>("EtapaId");
 
@@ -590,24 +584,6 @@ namespace Doitclick.Data.Migrations
                     b.HasIndex("EtapaDestinoId");
 
                     b.ToTable("Transiciones");
-                });
-
-            modelBuilder.Entity("Doitclick.Models.Workflow.Variable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Clave");
-
-                    b.Property<string>("NumeroTicket");
-
-                    b.Property<string>("Tipo");
-
-                    b.Property<string>("Valor");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Variables");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

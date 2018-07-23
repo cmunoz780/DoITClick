@@ -7,6 +7,7 @@ namespace Doitclick.Models.Workflow
 {
     public enum TipoDuracion
     {
+        Ninguna,
         MesesCorridos,
         MesesHabiles,
         SemanasCorridas,

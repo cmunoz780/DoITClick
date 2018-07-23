@@ -13,7 +13,7 @@ namespace Doitclick.Models.Application
         public TipoCliente TipoCliente { get; set; }
         public bool EsPersonalidadJuridica { get; set; }
         public PrevisionSalud PrevisionSalud { get; set; }
-        public IEnumerable<MetaDatosCliente> MetaDatosCliente { get; set; }
-        public IEnumerable<Cotizacion> Cotizaciones { get; set; }
+        public ICollection<MetaDatosCliente> MetaDatosCliente { get; set; }
+        public ICollection<Cotizacion> Cotizaciones { get; set; }
     }
 }
