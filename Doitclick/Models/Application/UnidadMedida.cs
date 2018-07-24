@@ -9,6 +9,7 @@ namespace Doitclick.Models.Application
     {
         Granel,
         Gramos,
-        Kilogramos
+        Kilogramos,
+        Litros
     }
 }
