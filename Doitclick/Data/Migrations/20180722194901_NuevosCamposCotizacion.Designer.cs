@@ -3,14 +3,16 @@ using System;
 using Doitclick.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Doitclick.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180722194901_NuevosCamposCotizacion")]
+    partial class NuevosCamposCotizacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -476,8 +478,7 @@ namespace Doitclick.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                        .IsRequired();
 
                     b.Property<DateTime>("FechaInicio");
 
@@ -515,8 +516,7 @@ namespace Doitclick.Data.Migrations
                     b.Property<string>("EjecutadoPor");
 
                     b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                        .IsRequired();
 
                     b.Property<int?>("EtapaId");
 

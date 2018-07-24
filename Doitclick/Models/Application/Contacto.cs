@@ -12,6 +12,6 @@ namespace Doitclick.Models.Application
         public Cliente Cliente { get; set; }
         public string Resumen { get; set; }
         public bool EsPrincipal { get; set; }
-        public IEnumerable<MetaDatosContacto> MetaDatosContacto { get; set; }
+        public ICollection<MetaDatosContacto> MetaDatosContacto { get; set; }
     }
 }

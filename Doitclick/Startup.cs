@@ -16,7 +16,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Doitclick.Data;
 using Doitclick.Models.Security;
+using Doitclick.Services;
 using Doitclick.Services.Notification;
+using Doitclick.Services.Workflow;
 
 
 namespace Doitclick
@@ -35,7 +37,8 @@ namespace Doitclick
         {
             services.AddCors();
             services.AddDbContext<ApplicationDbContext>(options=> options.UseMySql(Configuration.GetConnectionString("DoItClickConnection")));
-            
+            services.AddTransient<IWorkflowKernel, DefaultWorkflowKernel>();
+            services.AddTransient<IWorkflowService, WorkflowService>();
             services.AddIdentity<Usuario, Rol>()
                  .AddEntityFrameworkStores<ApplicationDbContext>()
                  .AddDefaultTokenProviders();
@@ -111,15 +114,12 @@ namespace Doitclick
             app.UseCookiePolicy();
             app.UseAuthentication();
 
-
             //app.UseSignalR(routes => {
             //    routes.MapHub<PushHub>("/hubs/push");
             //});
             /*app.UseSignalR(routes => {
                 routes.MapHub<PushHub>("/hubs/push");
             });*/
-
-
 
             app.UseMvc(routes =>
             {

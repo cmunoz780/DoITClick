@@ -7,9 +7,9 @@ namespace Doitclick.Services.Workflow
 {
     public interface IWorkflowService
     {
-        void Instanciar();
+        void Instanciar(string nombreProceso, string identificacionUsuario, string resumenInstancia);
 
-        void Avanzar();
+        void Avanzar(string nombreInternoProceso, string nombreInternoEtapa, string numeroTicket, string identificacionUsuario);
 
         void Abortar();
     }

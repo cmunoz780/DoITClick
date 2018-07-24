@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Doitclick.Models.Security;
 using Doitclick.Models.Workflow;
 using Doitclick.Models.Application;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 
 namespace Doitclick.Data
@@ -20,11 +21,24 @@ namespace Doitclick.Data
         public DbSet<Proceso> Procesos { get; set; }
         public DbSet<Solicitud> Solicitudes { get; set; }
         public DbSet<Tarea> Tareas { get; set; }
+        public DbSet<TareaAutomatica> TareasAutomaticas { get; set; }
         public DbSet<Transito> Transiciones { get; set; }
+        public DbSet<Variable> Variables { get; set; }
 
-        public DbSet<Cliente> cliente { get; set; }
-        public DbSet<PrevisionSalud> previsionsalud { get; set; }
-
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<PrevisionSalud> PrevisionesSalud { get; set; }
+        public DbSet<Contacto> Contactos { get; set; }
+        public DbSet<Cotizacion> Cotizaciones { get; set; }
+        public DbSet<CuentaCorriente> CuentasCorrientes { get; set; }
+        public DbSet<ItemCotizar> ItemsCorizar { get; set; }
+        public DbSet<MaterialDisponible> MaterialesDiponibles { get; set; }
+        public DbSet<MaterialPresupuestado> MaterialesPresupuestados { get; set; }
+        public DbSet<MetaDatosCliente> MetadatosClientes { get; set; }
+        public DbSet<MetaDatosContacto> MetadatosContactos { get; set; }
+        public DbSet<MovimientoCuentaCorriente> MovimientosCuentasCorrientes { get; set; }
+        public DbSet<MovimientoMaterialDisponoble> MovimientosMaterialesDisponibles { get; set; }
+        public DbSet<Servicio> Servicios { get; set; }
+       
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -37,11 +51,16 @@ namespace Doitclick.Data
             /*Identity*/
             builder.Entity<Usuario>().ToTable("Usuarios");
             builder.Entity<Rol>().ToTable("Roles");
-            builder.Entity<IdentityUserClaim<string>>().ToTable("ReclamosUsuarios");
+            builder.Entity<IdentityUserClaim<string>>().ToTable("NotificacionesUsuarios");
             builder.Entity<IdentityUserRole<string>>().ToTable("RolesUsuarios");
             builder.Entity<IdentityUserLogin<string>>().ToTable("AccesosUsuarios");
-            builder.Entity<IdentityRoleClaim<string>>().ToTable("ReclamosRoles");
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("NotificacionesRoles");
             builder.Entity<IdentityUserToken<string>>().ToTable("TokensUsuarios");
+
+            builder.Entity<Cliente>()
+                .Property("PrevisionSaludId")
+                .IsRequired(false);
+            
 
             builder.Entity<Organizacion>()
                 .HasMany(f => f.Roles)
@@ -85,30 +104,58 @@ namespace Doitclick.Data
                 .WithOne(d => d.EtapaActaual)
                 .IsRequired();
 
+            
+
             builder.Entity<Etapa>()
                 .Property(e => e.TipoUsuarioAsignado)
-                .HasConversion(
-                    c => c.ToString(),
-                    c => Enum.Parse<TipoUsuarioAsignado>(c)
+                .HasConversion(new ValueConverter<TipoUsuarioAsignado, string>(
+                    v => v.ToString(),
+                    v => (TipoUsuarioAsignado)Enum.Parse(typeof(TipoUsuarioAsignado), v))
                 ).IsRequired();
+
+            
 
             builder.Entity<Etapa>()
                 .Property(d => d.TipoEtapa)
-                .HasConversion(
+                .HasConversion( new ValueConverter<TipoEtapa, string>(
                     v => v.ToString(),
-                    v => Enum.Parse<TipoEtapa>(v)
+                    v => (TipoEtapa)Enum.Parse(typeof(TipoEtapa), v))
                 ).IsRequired();
 
             builder.Entity<Etapa>()
                 .Property(d => d.TipoDuracion)
-                .HasConversion(
+                .HasConversion(new ValueConverter<TipoDuracion, string>(
                     v => v.ToString(),
-                    v => Enum.Parse<TipoDuracion>(v)
-                ).IsRequired(false);
+                    v => (TipoDuracion)Enum.Parse(typeof(TipoDuracion), v))
+                );
+
+            builder.Entity<Etapa>()
+                .Property(d => d.TipoDuracionRetardo)
+                .HasConversion(new ValueConverter<TipoDuracion, string>(
+                    v => v.ToString(),
+                    v => (TipoDuracion)Enum.Parse(typeof(TipoDuracion), v))
+                );
+
+            builder.Entity<Solicitud>()
+                .Property(d => d.Estado)
+                .HasConversion( new ValueConverter<EstadoSolicitud, string>(
+                    v => v.ToString(),
+                    v => (EstadoSolicitud)Enum.Parse(typeof(EstadoSolicitud), v))
+                )
+                .IsRequired();
 
             builder.Entity<Solicitud>()
                 .HasMany(d => d.Tareas)
                 .WithOne(d => d.Solicitud)
+                .IsRequired();
+
+            builder.Entity<Tarea>()
+                .Property(d=>d.Estado)
+                .HasConversion(
+                new ValueConverter<EstadoTarea, string>(
+                    v => v.ToString(),
+                    v => (EstadoTarea)Enum.Parse(typeof(EstadoTarea), v))
+                )
                 .IsRequired();
 
             builder.Entity<Etapa>()
@@ -183,9 +230,14 @@ namespace Doitclick.Data
                 .WithOne(c => c.PrevisionSalud)
                 .IsRequired();
 
+            builder.Entity<Tarea>()
+                .Property(d => d.Estado)
+                .HasMaxLength(200);
 
-
-
+            builder.Entity<Solicitud>()
+                .Property(s => s.Estado)
+                .HasMaxLength(200);
+              
 
         }
     }

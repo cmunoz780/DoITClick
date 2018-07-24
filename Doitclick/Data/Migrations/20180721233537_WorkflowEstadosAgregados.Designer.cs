@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Doitclick.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180718225657_CrearCampoNombreUsuario")]
-    partial class CrearCampoNombreUsuario
+    [Migration("20180721233537_WorkflowEstadosAgregados")]
+    partial class WorkflowEstadosAgregados
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("PrevisionSaludId");
 
-                    b.ToTable("Cliente");
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.Contacto", b =>
@@ -59,7 +59,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Contacto");
+                    b.ToTable("Contactos");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.Cotizacion", b =>
@@ -83,7 +83,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Cotizacion");
+                    b.ToTable("Cotizaciones");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.CuentaCorriente", b =>
@@ -99,7 +99,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("CuentaCorriente");
+                    b.ToTable("CuentasCorrientes");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.ItemCotizar", b =>
@@ -117,7 +117,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("ServicioId");
 
-                    b.ToTable("ItemCotizar");
+                    b.ToTable("ItemsCorizar");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.MaterialDisponible", b =>
@@ -135,7 +135,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MaterialDisponible");
+                    b.ToTable("MaterialesDiponibles");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.MaterialPresupuestado", b =>
@@ -155,7 +155,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("ServicioId");
 
-                    b.ToTable("MaterialPresupuestado");
+                    b.ToTable("MaterialesPresupuestados");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.MetaDatosCliente", b =>
@@ -175,7 +175,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("MetaDatosCliente");
+                    b.ToTable("MetadatosClientes");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.MetaDatosContacto", b =>
@@ -195,7 +195,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("ContactoId");
 
-                    b.ToTable("MetaDatosContacto");
+                    b.ToTable("MetadatosContactos");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.MovimientoCuentaCorriente", b =>
@@ -223,7 +223,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("CuentaCorrienteId");
 
-                    b.ToTable("MovimientoCuentaCorriente");
+                    b.ToTable("MovimientosCuentasCorrientes");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.MovimientoMaterialDisponoble", b =>
@@ -249,7 +249,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("MaterialDisponibleId");
 
-                    b.ToTable("MovimientoMaterialDisponoble");
+                    b.ToTable("MovimientosMaterialesDisponibles");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.PrevisionSalud", b =>
@@ -261,7 +261,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PrevisionSalud");
+                    b.ToTable("PrevisionesSalud");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Application.Servicio", b =>
@@ -287,7 +287,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Servicio");
+                    b.ToTable("Servicios");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Security.Organizacion", b =>
@@ -471,6 +471,9 @@ namespace Doitclick.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Estado")
+                        .IsRequired();
+
                     b.Property<DateTime>("FechaInicio");
 
                     b.Property<DateTime?>("FechaTermino");
@@ -505,6 +508,9 @@ namespace Doitclick.Data.Migrations
                     b.Property<string>("AsignadoA");
 
                     b.Property<string>("EjecutadoPor");
+
+                    b.Property<string>("Estado")
+                        .IsRequired();
 
                     b.Property<int?>("EtapaId");
 
@@ -551,7 +557,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("EtapaId");
 
-                    b.ToTable("TareaAutomatica");
+                    b.ToTable("TareasAutomaticas");
                 });
 
             modelBuilder.Entity("Doitclick.Models.Workflow.Transito", b =>
@@ -596,7 +602,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("ReclamosRoles");
+                    b.ToTable("NotificacionesRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -615,7 +621,7 @@ namespace Doitclick.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ReclamosUsuarios");
+                    b.ToTable("NotificacionesUsuarios");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>

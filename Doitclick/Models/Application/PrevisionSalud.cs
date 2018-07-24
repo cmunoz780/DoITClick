@@ -9,6 +9,6 @@ namespace Doitclick.Models.Application
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public IEnumerable<Cliente> Clientes { get; set; }
+        public ICollection<Cliente> Clientes { get; set; }
     }
 }

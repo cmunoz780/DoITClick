@@ -13,7 +13,7 @@ namespace Doitclick.Models.Application
         public int PrecioUnidad { get; set; }
         public int StockAlerta { get; set; }
 
-        public IEnumerable<MovimientoMaterialDisponoble> Movimientos { get; set; }
-        public IEnumerable<MaterialPresupuestado> Presupuestado { get; set; }
+        public ICollection<MovimientoMaterialDisponoble> Movimientos { get; set; }
+        public ICollection<MaterialPresupuestado> Presupuestado { get; set; }
     }
 }
