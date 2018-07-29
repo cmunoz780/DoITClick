@@ -54,12 +54,11 @@ namespace Doitclick
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = "yourdomain.com",
                         ValidAudience = "yourdomain.com",
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(Configuration["Llave"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Llave"])),
                         ClockSkew = TimeSpan.Zero
                     };
 
-                    /*options.Events = new JwtBearerEvents
+                    options.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>
                         {
@@ -75,9 +74,9 @@ namespace Doitclick
                             }
                             return Task.CompletedTask;
                         }
-                    };*/
+                    };
                 });
-
+            
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -86,7 +85,7 @@ namespace Doitclick
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //services.AddSignalRCore();
+            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(ConfigureJson);
         }
 
@@ -114,16 +113,12 @@ namespace Doitclick
             app.UseCookiePolicy();
             app.UseAuthentication();
 
-            //app.UseSignalR(routes => {
-            //    routes.MapHub<PushHub>("/hubs/push");
-            //});
-            /*app.UseSignalR(routes => {
+            app.UseSignalR(routes => {
                 routes.MapHub<PushHub>("/hubs/push");
-            });*/
+            });
 
             app.UseMvc(routes =>
             {
-                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Acceso}/{action=Login}/{id?}");

@@ -80,6 +80,7 @@ namespace Doitclick.Controllers.Api
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var expiration = DateTime.UtcNow.AddHours(1);
+            
 
             JwtSecurityToken token = new JwtSecurityToken(
                issuer: "yourdomain.com",

@@ -21,7 +21,7 @@
                     </div>
                     <h3 class="panel-title">
                         <ol class="breadcrumb">
-                            <li><a><i class="demo-pli-home"></i></a></li>
+                            <li></li>
                             <li class="active">Datos Paciente</li>
                         </ol>
                     </h3>
@@ -31,23 +31,35 @@
 
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Rut Paciente</label>
+                            <label for="RutPaciente">Rut Paciente</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-male"></i></span>
                                 <input type="text" id="RutPaciente" name="RutPaciente" class="form-control">
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <label for="RutPaciente">Previsión Salud</label>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-addon"><i class="demo-pli-male"></i></span>
+                                <select id="PrevisionSalud" name="PrevisionSalud" class="form-control">
+                                    @foreach (var prv in ViewBag.PrevisionesSalud)
+                                    {
+                                        <option value="@prv.Id">@prv.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Nombre Paciente</label>
+                            <label for="NombrePaciente">Nombre Paciente</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-list-view"></i></span>
                                 <input type="text" id="NombrePaciente" name="NombrePaciente" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Apellidos Paciente</label>
+                            <label for="ApellidosPaciente">Apellidos Paciente</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-male"></i></span>
                                 <input type="text" id="ApellidosPaciente" name="ApellidosPaciente" class="form-control">
@@ -56,14 +68,14 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Telefono</label>
+                            <label for="Telefono">Telefono</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-add-user-star"></i></span>
                                 <input type="text" id="Telefono" name="Telefono" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Correo Electronico</label>
+                            <label for="Correo">Correo Electronico</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
                                 <input type="text" id="Correo" name="Correo" class="form-control">
@@ -73,7 +85,7 @@
                     <hr />
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Dr. Solicitante</label>
+                            <label for="DrSolicitante">Dr. Solicitante</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-male"></i></span>
                                 <input type="text" id="DrSolicitante" name="DrSolicitante" class="form-control">
@@ -86,13 +98,7 @@
                                 <input type="text" id="NroOrden" name="NroOrden" class="form-control">
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-3">
-                            <label for="TiempoEstimado">Tiempo estimado OT</label>
-                            <div class="input-group mar-btm">
-                                <span class="input-group-addon"><i class="demo-pli-gear"></i></span>
-                                <input type="text" id="TiempoEstimado" name="TiempoEstimado" class="form-control">
-                            </div>
-                        </div>
+
                     </div>
 
                     <div class="row">
@@ -101,10 +107,19 @@
                                 <div class="bord-top pad-ver">
                                     <span class="btn btn-primary fileinput-button dz-clickable">
                                         <i class="fa fa-plus"></i>
-                                        <span>Cargar Imagen...</span>
+                                        <span>Cargar Orden Odontologo...</span>
+                                        <input type="file" id="imgUpload" onchange="previsualizarImagen()" />
                                     </span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class=" pad-top">
+                            <p>Previsualización</p>
+                            <img id="img-previsualiza" src="" alt="Previsualizacion Imagen" style="display:none;width:95%; height: 95%;">
                         </div>
                     </div>
                 </div>
@@ -131,7 +146,7 @@
                 </div>
                 <h3 class="panel-title">
                     <ol class="breadcrumb">
-                        <li><a><i class="demo-pli-home"></i></a></li>
+                        <li></li>
                         <li class="active">Item OT</li>
                     </ol>
                 </h3>
@@ -142,107 +157,139 @@
                     <label for="xs">Tipo de Trabajo</label>
                     <div class="input-group mar-btm">
                         <span class="input-group-addon"><i class="demo-psi-repair"></i></span>
-                        <select id="demo-cs-multiselect" data-placeholder="Seleccione Trabajo" multiple tabindex="4">
-                            <option value="Trabajo 1">Trabajo 1</option>
-                            <option value="Trabajo 2">Trabajo 2</option>
-                            <option value="Trabajo 3">Trabajo 3</option>
-                            <option value="Trabajo 4">Trabajo 4</option>
-                            <option value="Trabajo 5">Trabajo 5</option>
-                            <option value="Trabajo 6">Trabajo 6</option>
-                            <option value="Trabajo 7">Trabajo 7</option>
-                            <option value="Trabajo 8">Trabajo 8</option>
-                            <option value="Trabajo 9">Trabajo 9</option>
-                            <option value="Trabajo 10">Trabajo 10</option>
-                            <option value="Trabajo 11">Trabajo 11</option>
-                            <option value="Trabajo 12">Trabajo 12</option>
-                            <option value="Trabajo 13">Trabajo 13</option>
+                        <select id="demo-cs-multiselect" data-placeholder="Seleccione Trabajo" tabindex="4">
+                            <option value=""></option>
                             <option value="Otro">Otro</option>
+                            @foreach (var svc in ViewBag.Servicios)
+                            {
+                                <option data-descripcion="@svc.Resumen" data-valor="@svc.ValorTotal" value="@svc.Id">@svc.Nombre</option>
+                            }
+
                         </select>
+
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6">
-                    <label for="x">Descripción</label>
+                <div class="col-sm-12 col-md-6 extension-otros" style="display:none;">
+                    <label for="xs">Descripción Trabajo</label>
                     <div class="input-group mar-btm">
-                        <span class="input-group-addon"><i class="demo-pli-information"></i></span>
-                        <input type="text" id="x" class="form-control">
+                        <span class="input-group-addon"><i class="demo-psi-repair"></i></span>
+                        <textarea id="DescripcionEvaluacionOP" class="form-control"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 table-responsive">
-                <table class="table table-bordered invoice-summary">
-                    <thead>
-                        <tr class="bg-trans-dark">
-                            <th class="text-uppercase">Descripción</th>
-                            <th class="min-col text-center text-uppercase">Precio</th>
-                            <th class="min-col text-right text-uppercase">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <strong>Trabajo 1</strong>
-                                <small>Descripción de Trabajo.</small>
-                            </td>
-                            <td class="text-center">$50.000</td>
-                            <td class="text-right">$50.000</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Trabajo 4</strong>
-                                <small>Descripción de Trabajo.</small>
-                            </td>
-                            <td class="text-center">$25.000</td>
-                            <td class="text-right">$25.000</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Trabajo 6</strong>
-                                <small>Descripción de Trabajo.</small>
-                            </td>
-                            <td class="text-center">$35.000</td>
-                            <td class="text-right">$35.000</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Trabajo 2</strong>
-                                <small>Descripción de Trabajo.</small>
-                            </td>
-                            <td class="text-center">$40.000</td>
-                            <td class="text-right">$40.000</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-sm-12 pad-top">
-                <div class="text-lg">
-                    <hr>
-                    <div class="clearfix">
-                        <table class="table invoice-total">
-                            <tbody>
-                                <tr>
-                                    <td><strong>Sub Total :</strong></td>
-                                    <td>$155.000</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>TOTAL :</strong></td>
-                                    <td class="text-bold h4">$155.000</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <label for="xs">&nbsp;</label>
+                    <div class="input-group mar-btm">
+                        <button type="button" class="btn btn-primary agrgar-trabajo">Agregar</button>
                     </div>
-                    <div class="text-right no-print">
-                        <a href="javascript:window.print()" class="btn btn-default"><i class="demo-pli-printer icon-lg"></i></a>
-                        <button class="btn btn-primary">Confirmar Pago</button>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 table-responsive">
+                    <table class="table table-bordered invoice-summary">
+                        <thead>
+                            <tr class="bg-trans-dark">
+                                <th class="text-uppercase">Descripción</th>
+                                <th class="min-col text-center text-uppercase">Precio</th>
+                                <th class="min-col text-center text-uppercase">Cantidad</th>
+                                <th class="min-col text-right text-uppercase">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalles-cotizacion"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 pad-top">
+                    <div class="text-lg">
+                        <hr>
+                        <div class="alert alert-danger mensaje-otros" style="display:none;">
+                            <small>Al seleccionar la opción otros se enviará a cotizar el servicio con uno de los técnicos</small>
+                        </div>
+                        <div class="clearfix">
+                            <table class="table invoice-total">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Total:</strong></td>
+                                        <td class="text-bold h4 showapagar">$0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-right no-print">
+                            <a href="javascript:window.print()" class="btn btn-default"><i class="demo-pli-printer icon-lg"></i></a>
+                            <button class="btn btn-primary" id="btn-confirmar">Generar Cotización</button>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </form>
 
-@section Scripts{ 
-
+@section Scripts{
+    <script src="~/lib/signalr.js"></script>
     <script>
+
+        window._servicios_detalle_cotizacion = [];
+
+        function restaCantidad(e) {
+            let $that = $(this);
+            let prnt = $that.closest('tr');
+            let opts = JSON.parse($(prnt).data('opts'));
+            if (opts.cantidad > 1) {
+                opts.cantidad--;
+                $.each(_servicios_detalle_cotizacion, function (i, e) {
+                    if (e.id == opts.id) {
+                        _servicios_detalle_cotizacion.splice(i, 1);
+                        _servicios_detalle_cotizacion.push(opts)
+                    }
+                });
+                $(prnt).data('opts', JSON.stringify(opts));
+                $(prnt).find('.showcan').text(opts.cantidad)
+                $(prnt).find('.showtot').text('$' + (opts.cantidad * opts.valor))
+                $(document).trigger('doitclick.events.onCambiaValor', { opts, type: 'resta' });
+            }
+
+
+        }
+
+        function sumaCantidad(e) {
+            let $that = $(this);
+            let prnt = $that.closest('tr');
+            let opts = JSON.parse($(prnt).data('opts'));
+            opts.cantidad++;
+            $.each(_servicios_detalle_cotizacion, function (i, e) {
+                if (e.id == opts.id) {
+                    _servicios_detalle_cotizacion.splice(i, 1);
+                    _servicios_detalle_cotizacion.push(opts)
+                }
+            });
+            $(prnt).data('opts', JSON.stringify(opts));
+            $(prnt).find('.showcan').text(opts.cantidad)
+            $(prnt).find('.showtot').text('$' + (opts.cantidad * opts.valor))
+            $(document).trigger('doitclick.events.onCambiaValor', { opts, type: 'suma' });
+        }
+
+        function previsualizarImagen() {
+            var preview = document.querySelector('#img-previsualiza');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+                $(preview).css("display", "block");
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
 
         (function ($) {
             $.fn.serializeFormJSON = function () {
@@ -267,29 +314,149 @@
 
         $(function () {
 
+            $(document).on('doitclick.events.onCambiaValor', function (event, extra) {
+                var totalGeneral = 0;
+                $.each(_servicios_detalle_cotizacion, function (i, e) {
+                    totalGeneral += (e.cantidad * e.valor)
+
+                });
+                $('.showapagar').text('$' + totalGeneral);
+
+            });
+
+            $('.agrgar-trabajo').on('click', function () {
+
+
+                if ($('#demo-cs-multiselect option:selected').val() == '') {
+
+                    return;
+                }
+
+
+                if ($('#demo-cs-multiselect option:selected').val() == 'Otro') {
+
+                    const opts = {
+                        id: 'Otro',
+                        texto: "Evaluación Otras Prestaciones",
+                        descripcion: $('#DescripcionEvaluacionOP').val(),
+                        valor: 0,
+                        cantidad: 1
+                    }
+
+                    var _tr = $('<tr>').data("opts", JSON.stringify(opts));
+                    var _td_descripcion = $('<td>');
+                    _td_descripcion.append($('<strong>').text(opts.texto)).append($('<small>').text(opts.descripcion))
+                    _tr.append(_td_descripcion);
+
+                    var _td_valor = $('<td>').addClass('text-center').text('Por Evaluar');
+                    _tr.append(_td_valor);
+
+                    var _td_cantidad = $('<td>').addClass('text-center').text(1);
+                    _tr.append(_td_cantidad);
+
+                    var _td_total = $('<td>').addClass('text-right').text('Por Evaluar');
+                    _tr.append(_td_total);
+
+                    _servicios_detalle_cotizacion.push(opts);
+                    $("#detalles-cotizacion").append(_tr);
+
+                    $('#btn-confirmar').text("Enviar a evaluación")
+                    $('.mensaje-otros').show('slow')
+
+                    return;
+                }
+
+                const opts = {
+                    id: $('#demo-cs-multiselect option:selected').val(),
+                    texto: $('#demo-cs-multiselect option:selected').text(),
+                    descripcion: $('#demo-cs-multiselect option:selected').data("descripcion"),
+                    valor: $('#demo-cs-multiselect option:selected').data("valor"),
+                    cantidad: 1
+                }
+                _servicios_detalle_cotizacion.push(opts);
+
+                var _tr = $('<tr>').data("opts", JSON.stringify(opts));
+                var _td_descripcion = $('<td>');
+                _td_descripcion.append($('<strong>').text(opts.texto)).append($('<small>').text(opts.descripcion))
+                _tr.append(_td_descripcion);
+
+                var _td_valor = $('<td>').addClass('text-center').text('$' + opts.valor.toString());
+                _tr.append(_td_valor);
+
+                var _td_cantidad = $('<td>').addClass('text-center');
+                _td_cantidad
+                    .append($('<button>').prop({ type: 'button' }).addClass('btn btn-xs btn-primary').text('<').on("click", restaCantidad))
+                    .append($('<span>').addClass("pad-hor showcan").text(opts.cantidad))
+                    .append($('<button>').prop({ type: 'button' }).addClass('btn btn-xs btn-primary').text('>').on("click", sumaCantidad))
+                _tr.append(_td_cantidad);
+
+                var _td_total = $('<td>').addClass('text-right showtot').text('$' + opts.valor.toString());
+                _tr.append(_td_total);
+
+                $("#detalles-cotizacion").append(_tr);
+                $(document).trigger('doitclick.events.onCambiaValor', { opts, type: 'nuevo' });
+            });
+
+
+            $("#demo-cs-multiselect").on("change", function () {
+                if ($(this).val() == 'Otro') {
+                    $('.extension-otros').show('slow');
+                } else {
+                    $('.extension-otros').hide('slow');
+                }
+            });
+
             $('#frm-ingreso-datos-paciente').on("submit", function () {
-
-                
-                const model = $(this).serializeFormJSON();
-
+                const initialLabelText = $("#btn-confirmar").text();
+                $("#btn-confirmar").prop("enabled", false).text("...Cargando");
+                let model = $(this).serializeFormJSON();
+                model.SrcImagen = $("#img-previsualiza").prop("src");
+                model.Servicios = _servicios_detalle_cotizacion;
 
                 $.ajax({
                     type: "POST",
                     url: "/api/flujo-interno/ingreso-datos-paciente",
                     data: JSON.stringify(model),
                     contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) { console.log(data); },
-                    failure: function (errMsg) {
-                        console.log(errMsg);
-                    }
+                    dataType: "json"
+                }).done(function (data) {
+                    console.log(data);
+                    const user = "Chachacharles";
+                    const message = new Date().toString() + " Charly";
+                    connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+
+                }).fail(function (errMsg) {
+                    console.log(errMsg);
+
+                }).always(function () {
+                    $("#btn-confirmar").prop("enabled", true).text(initialLabelText);
+                    const user = "Chachacharles";
+                    const message = "Siempre paso por aqui";
+                    connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
                 });
 
                 return false;
             });
 
         });
+
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/hubs/push")
+            .build();
+
+        connection.on("ReceiveMessage", (user, message) => {
+            const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const encodedMsg = user + " says " + msg;
+            console.log('ReceiveMessage', encodedMsg);
+        });
+
+
+        connection.start().catch(err => console.error(err.toString()));
+
+
+
     </script>
 
 }
-    
+

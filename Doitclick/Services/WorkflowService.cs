@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Doitclick.Models.Workflow;
 using Doitclick.Services.Workflow;
 
 namespace Doitclick.Services
@@ -25,9 +26,9 @@ namespace Doitclick.Services
             _kernel.CompletarTarea(nombreInternoProceso, nombreInternoEtapa, numeroTicket, identificacionUsuario);
         }
 
-        public void Instanciar(string nombreProceso, string identificacionUsuario, string resumenInstancia)
+        public Solicitud Instanciar(string nombreProceso, string identificacionUsuario, string resumenInstancia)
         {
-            _kernel.GenerarSolicitud(nombreProceso, identificacionUsuario, resumenInstancia);
+            return _kernel.GenerarSolicitud(nombreProceso, identificacionUsuario, resumenInstancia);
         }
 
         public void AsignarVariable(string clave, string valor, string numeroTicket)

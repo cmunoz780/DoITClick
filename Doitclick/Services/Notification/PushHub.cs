@@ -15,9 +15,8 @@ namespace Doitclick.Services.Notification
         { 
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
-        
 
-        public async Task NotificarCotizacionEntrante(Usuario usuario, string numeroTicket)
+        /*public async Task NotificarCotizacionEntrante(Usuario usuario, string numeroTicket)
         {
             await Clients.User(usuario.Identificador).SendAsync("NotificarCotizacionEntrante", numeroTicket);
         }
@@ -25,6 +24,6 @@ namespace Doitclick.Services.Notification
         public async Task NotificarCotizacionSaliente(Usuario usuario, string numeroTicket)
         {
             await Clients.User(usuario.Identificador).SendAsync("NotificarCotizacionSaliente", numeroTicket);
-        }
+        }*/
     }
 }
