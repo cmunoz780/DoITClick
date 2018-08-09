@@ -91,6 +91,11 @@ namespace Doitclick.Services.Workflow
             
             _context.Tareas.Add(tarea);
             _context.SaveChanges();
+            var lst = _context.TareasAutomaticas.Include(x => x.Etapa).Where(x => x.Etapa.Id == etapa.Id && x.EventoDisparador == TipoEventoEtapa.AlActivar).ToList();
+            foreach (var x in lst)
+            {
+                EjecutaTrabajo(x.Namespace, x.Clase, x.Metodo, numeroTicket);
+            }
 
             if(etapa.TipoUsuarioAsignado == TipoUsuarioAsignado.Boot)
             {
@@ -143,7 +148,7 @@ namespace Doitclick.Services.Workflow
             ICollection<Transito> transiciones = _context.Transiciones.Include(d => d.EtapaActaual).Where(d => d.EtapaActaual.NombreInterno == nombreInternoEtapa).ToList();
             foreach (Transito transicion in transiciones)
             {
-                bool estadoAvance = EjecutvaValidacion(transicion.NamespaceValidacion, transicion.ClaseValidacion, numeroTicket);
+                bool estadoAvance = EjecutaValidacion(transicion.NamespaceValidacion, transicion.ClaseValidacion, transicion.MetodoValidacion, numeroTicket);
                 if(estadoAvance)
                 {
                     ActivarTarea(nombreInternoProceso, transicion.EtapaDestino.NombreInterno, numeroTicket, identificacionUsuario);
@@ -189,7 +194,7 @@ namespace Doitclick.Services.Workflow
             return now.Year.ToString() + now.Month.ToString().PadLeft(2, '0') + now.Day.ToString().PadLeft(2, '0') + IdProceso.PadLeft(2, '0') + (now.Hour.ToString() + now.Minute.ToString() + now.Second.ToString() + now.Millisecond.ToString()).PadLeft(10, '0');
         }
 
-        private bool EjecutvaValidacion(string elnamespace, string laclase, string numeroTicket)
+        private bool EjecutaValidacion(string elnamespace, string laclase, string elmetodo, string numeroTicket)
         {
 
             object[] losparametros =
@@ -198,12 +203,27 @@ namespace Doitclick.Services.Workflow
                 numeroTicket
             };
             Type type = typeof(IWorkflowTransitionValidation);
-            MethodInfo method = type.GetMethod("Validar");
+            MethodInfo method = type.GetMethod(elmetodo);
             Type implementacion = Type.GetType(elnamespace + "." + laclase);
             IWorkflowTransitionValidation instancia = (IWorkflowTransitionValidation)Activator.CreateInstance(implementacion, losparametros);
             return (bool)method.Invoke(instancia, null);
         }
-        
+
+        private bool EjecutaTrabajo(string elnamespace, string laclase, string elmetodo, string numeroTicket)
+        {
+
+            object[] losparametros =
+            {
+                _context,
+                numeroTicket
+            };
+            Type type = typeof(IWorkflowAutoTask);
+            MethodInfo method = type.GetMethod(elmetodo);
+            Type implementacion = Type.GetType(elnamespace + "." + laclase);
+            IWorkflowAutoTask instancia = (IWorkflowAutoTask)Activator.CreateInstance(implementacion, losparametros);
+            return (bool)method.Invoke(instancia, null);
+        }
+
         public void SetVariable(string key, string value, string numeroTicket)
         {
             if(_context.Variables.Any(s=>s.Clave == key && s.NumeroTicket == numeroTicket))

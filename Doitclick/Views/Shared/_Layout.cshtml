@@ -15,12 +15,7 @@
     <link href="~/Assets/plugins/pace/pace.min.css" rel="stylesheet">
     <script src="~/Assets/plugins/pace/pace.min.js"></script>
     <link href="~/Assets/css/demo/nifty-demo.min.css" rel="stylesheet">
-    <link href="~/Assets/plugins/select2/css/select2.min.css" rel="stylesheet">
-    <link href="~/Assets/plugins/chosen/chosen.min.css" rel="stylesheet">
-    <link href="~/Assets/plugins/noUiSlider/nouislider.min.css" rel="stylesheet">
-    <link href="~/Assets/plugins/dropzone/dropzone.min.css" rel="stylesheet">
-    <link href="~/Assets/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
-
+    @RenderSection("styles", false)
 </head>
 <body>
 
@@ -275,16 +270,15 @@
     <script src="~/Assets/js/jquery.min.js"></script>
     <script src="~/Assets/js/bootstrap.min.js"></script>
     <script src="~/Assets/js/nifty.min.js"></script>
+    <script src="~/js/ext.min.js"></script>
     <script src="~/Assets/plugins/flot-charts/jquery.flot.min.js"></script>
     <script src="~/Assets/plugins/flot-charts/jquery.flot.resize.min.js"></script>
     <script src="~/Assets/plugins/flot-charts/jquery.flot.tooltip.min.js"></script>
     <script src="~/Assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <script src="~/Assets/plugins/select2/js/select2.min.js"></script>
+    
     <script src="~/Assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
-    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    
     <script src="~/Assets/plugins/dropzone/dropzone.min.js"></script>
-    <script src="~/Assets/plugins/bootstrap-table/bootstrap-table.min.js"></script>
-    <script src="~/Assets/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
     @RenderSection("Scripts", required: false)
 
 

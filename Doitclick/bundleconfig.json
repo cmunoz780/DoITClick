@@ -1,0 +1,30 @@
+[
+  {
+    "outputFileName": "wwwroot/js/ext.min.js",
+    "inputFiles": [
+      "Client/configuracion.js",
+      "Client/extensiones.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "outputMode": "singleLine"
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/FlujoInterno/IngresoDatosPaciente.min.js",
+    "inputFiles": [
+      "Client/FlujoInterno/IngresoDatosPaciente.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "outputMode": "singleLine"
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/inicio.min.js",
+    "inputFiles": [
+      "Client/inicio.js"
+    ]
+  }
+]
