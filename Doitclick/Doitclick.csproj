@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Services\Application\" />
-    <Folder Include="Views\MantenedorServicio\" />
     <Folder Include="wwwroot\Assets\plugins\flot-charts\examples\gauge\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />

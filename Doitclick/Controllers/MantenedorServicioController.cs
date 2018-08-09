@@ -8,7 +8,7 @@ namespace Doitclick.Controllers
 {
     public class MantenedorServicioController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Formulario()
         {
             return View();
         }

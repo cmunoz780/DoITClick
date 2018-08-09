@@ -1,7 +1,7 @@
 ﻿@{
-    ViewData["Title"] = "Ingreso de Materiales";
+    ViewData["Title"] = "Ingreso de Servicios";
 }
-<form id="frm-ingreso-datos-materiales">
+<form id="frm-ingreso-servicios">
     <div class="row">
         <div class="col-lg-12">
             <div id="demo-panel-network" class="panel">
@@ -22,83 +22,110 @@
                     <h3 class="panel-title">
                         <ol class="breadcrumb">
                             <li><a><i class="demo-pli-home"></i></a></li>
-                            <li class="active">Ingreso Materiales</li>
+                            <li class="active">Ingreso de Servicios</li>
                         </ol>
                     </h3>
                 </div>
                 <div class="panel-body">
 
 
-                    @*<div class="row">
-            <div class="col-sm-12 col-md-6">
-                <label for="x">Rut Paciente</label>
-                <div class="input-group mar-btm">
-                    <span class="input-group-addon"><i class="demo-pli-male"></i></span>
-                    <input type="text" id="RutPaciente" name="RutPaciente" class="form-control">
-                </div>
-            </div>
-        </div>*@
+                    <div class="row">
+                        <div class="col-sm-2 col-md-2">
+                            <label for="x">Código de Servicio</label>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-addon"><i class="demo-pli-male"></i></span>
+                                <input type="text" id="CodigoServicio" name="CodigoServicio" class="form-control">
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Nombre Material</label>
+                            <label for="x">Nombre de Servicio</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-list-view"></i></span>
-                                <input type="text" id="NombreMaterial" name="NombreMaterial" class="form-control">
+                                <input type="text" id="NombreServicio" name="NombreServicio" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Unidad Medida</label>
+                            <label for="x">Descripción</label>
                             <div class="input-group mar-btm">
-                                <select class="form-control" id="sslUnidadMedida" name="sslUnidadMedida">
-                                    <option value="">Selecione</option>
-                                    <option value="0">Granel</option>
-                                    <option value="1">Gramos</option>
-                                    <option value="2">Kilogramos</option>
-                                    <option value="3">Litros</option>
-                                </select>
+                                <textarea id="DescripcionServicio" name="DescripcionServicio" rows="9" class="form-control" placeholder="Ingresar descripción de servicio solicitado" style="width: 286px; height: 43px;"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Precio Unidad</label>
+                            <label for="x">Mano de Obra $</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-add-user-star"></i></span>
-                                <input type="text" id="PrecioMaterial" name="PrecioMaterial" class="form-control">
+                                <input type="text" id="VManoObra" name="VManoObra" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <label for="x">Stock de Alerta</label>
+                            @*<label for="x">Valor Mano de Obra</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
-                                <input type="text" id="StockMaterial" name="StockMaterial" class="form-control">
-                            </div>
+                                <input type="text" id="ValorManoObra" name="ValorManoObra" class="form-control">
+                            </div>*@
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <label for="x">Materiales $</label>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-addon"><i class="demo-pli-add-user-star"></i></span>
+                                <input type="text" id="ValorMateriales" name="ValorMateriales" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            @*<label for="x">Total</label>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
+                                <input type="text" id="ValorTotal" name="ValorTotal" class="form-control">
+                            </div>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <label for="x">Total</label>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-addon"><i class="demo-pli-add-user-star"></i></span>
+                                <input type="text" id="Total" name="Total" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            @*<label for="x">% Comision</label>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
+                                <input type="text" id="PorcComision" name="PorcComision" class="form-control">
+                            </div>*@
+                        </div>
+                    </div>
+
                     <hr />
                     @*<div class="row">
-            <div class="col-sm-12 col-md-6">
-                <label for="x">Dr. Solicitante</label>
-                <div class="input-group mar-btm">
-                    <span class="input-group-addon"><i class="demo-pli-male"></i></span>
-                    <input type="text" id="DrSolicitante" name="DrSolicitante" class="form-control">
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-3">
-                <label for="x">N° de Orden</label>
-                <div class="input-group mar-btm">
-                    <span class="input-group-addon"><i class="demo-pli-list-view"></i></span>
-                    <input type="text" id="NroOrden" name="NroOrden" class="form-control">
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-3">
-                <label for="TiempoEstimado">Tiempo estimado OT</label>
-                <div class="input-group mar-btm">
-                    <span class="input-group-addon"><i class="demo-pli-gear"></i></span>
-                    <input type="text" id="TiempoEstimado" name="TiempoEstimado" class="form-control">
-                </div>
-            </div>
-        </div>*@
+                            <div class="col-sm-12 col-md-6">
+                                <label for="x">Dr. Solicitante</label>
+                                <div class="input-group mar-btm">
+                                    <span class="input-group-addon"><i class="demo-pli-male"></i></span>
+                                    <input type="text" id="DrSolicitante" name="DrSolicitante" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-3">
+                                <label for="x">N° de Orden</label>
+                                <div class="input-group mar-btm">
+                                    <span class="input-group-addon"><i class="demo-pli-list-view"></i></span>
+                                    <input type="text" id="NroOrden" name="NroOrden" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-3">
+                                <label for="TiempoEstimado">Tiempo estimado OT</label>
+                                <div class="input-group mar-btm">
+                                    <span class="input-group-addon"><i class="demo-pli-gear"></i></span>
+                                    <input type="text" id="TiempoEstimado" name="TiempoEstimado" class="form-control">
+                                </div>
+                            </div>
+                        </div>*@
                     <div class="row">
                         <div class="col-lg-12">
                             <table id="listado" class="table table-bordered table-hover toggle-circle" data-page-size="15">
@@ -196,5 +223,4 @@
 
         });
     </script>
-
 }
