@@ -19,7 +19,7 @@ using Doitclick.Models.Security;
 using Doitclick.Services;
 using Doitclick.Services.Notification;
 using Doitclick.Services.Workflow;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Doitclick
 {
@@ -85,6 +85,17 @@ namespace Doitclick
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Acceso/Denegado");
+                options.Cookie.Name = "_SECURITY_";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(720);
+                options.LoginPath = new PathString("/");
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
+
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(ConfigureJson);
         }
@@ -112,6 +123,7 @@ namespace Doitclick
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            
 
             app.UseSignalR(routes => {
                 routes.MapHub<PushHub>("/hubs/push");

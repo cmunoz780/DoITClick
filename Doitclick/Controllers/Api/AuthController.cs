@@ -71,7 +71,7 @@ namespace Doitclick.Controllers.Api
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, infoUsuario.Identificacion),
-                //new Claim("Nombre", infoUsuario.Nombres),
+                new Claim("Algo", "caca"),
                 //new Claim("Correo", infoUsuario.Correo),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -170,6 +170,18 @@ namespace Doitclick.Controllers.Api
             };
             //var x = (TipoOrganizacion)'O';
             return Ok(((char)TipoOrganizacion.Oficina).ToString());
+        }
+
+        [Route("poner-online")]
+        [HttpGet]
+        public async Task<IActionResult> PonerOnline(string id)
+        {
+
+            var rut = User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName).Value;
+            var usuarioLogeado = _context.Users.FirstOrDefault(u => u.Identificador == rut);
+            
+            await _userManager.AddClaimAsync(usuarioLogeado, new Claim(JwtRegisteredClaimNames.Sid, id));
+            return Ok("...Data Procesada");
         }
     }
 }

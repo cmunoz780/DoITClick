@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Doitclick.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Doitclick.Controllers
 {
+    [Authorize]
     public class FlujoInternoController : Controller
     {
         private readonly ApplicationDbContext _context;

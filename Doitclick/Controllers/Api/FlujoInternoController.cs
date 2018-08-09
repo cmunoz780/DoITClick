@@ -9,11 +9,17 @@ using Doitclick.Models.Application;
 using Doitclick.Services.Workflow;
 using Doitclick.Models.Helper;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
+using Doitclick.Models.Workflow;
 
 namespace Doitclick.Controllers.Api
 {
     [Route("api/flujo-interno")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class FlujoInternoController : ControllerBase
     {
 
@@ -36,7 +42,6 @@ namespace Doitclick.Controllers.Api
             //Genera instancia WF ya que aqui es donde empieza todo el proceso
             string resumen = "Paciente: " + paciente.RutPaciente + " - " + paciente.ApellidosPaciente + " " + paciente.NombrePaciente + ", Solicitda: " + paciente.DrSolicitante + ", Orden: " + paciente.NroOrden;
             var solicitudGen = _wfService.Instanciar("FlujoPruebas", "17042783-1", resumen);
-            
             #region Paciente
             //Generar modelo de cliente que en este caso es un paciente que viene a la oficina
             Cliente _paciente = new Cliente
@@ -157,7 +162,31 @@ namespace Doitclick.Controllers.Api
 
         }
 
+        [Route("bandeja-tareas")]
+        [HttpGet]
+        public async Task<IActionResult> BandejaTareas(int limit = 10, int offset = 0, string search = "")
+        {
 
+            var rut = User.Identity.Name;
+            var bandeja = from tarea in _context.Tareas
+                          .Include(t => t.Solicitud).ThenInclude(s => s.Proceso)
+                          .Include(t => t.Etapa)
+                          join cotiza in _context.Cotizaciones
+                          .Include(x=>x.Cliente) on tarea.Solicitud.NumeroTicket equals cotiza.NumeroTicket
+                          where tarea.Solicitud.Proceso.Id == 1 && tarea.Estado == EstadoTarea.Activada && tarea.AsignadoA == rut
+                          select new ListadoInicioContainer { Tarea = tarea, Cotizacion = cotiza };
+                          
 
+            
+            if (!string.IsNullOrEmpty(search))
+            {
+                bandeja = bandeja.Where(x => x.Tarea.Solicitud.NumeroTicket.Contains(search) || x.Cotizacion.Cliente.Rut.Contains(search) || x.Cotizacion.Cliente.Nombres.Contains(search));
+            }
+            
+            BootstrapTableResult<ListadoInicioContainer> salida = new BootstrapTableResult<ListadoInicioContainer>();
+            salida.total = bandeja.Count();
+            salida.rows = bandeja.Skip(offset).Take(limit).ToList();
+            return Ok(salida);
+        }
     }
 }
