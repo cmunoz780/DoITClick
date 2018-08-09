@@ -19,7 +19,7 @@ using Doitclick.Models.Security;
 using Doitclick.Services;
 using Doitclick.Services.Notification;
 using Doitclick.Services.Workflow;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Doitclick
 {
@@ -54,12 +54,11 @@ namespace Doitclick
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = "yourdomain.com",
                         ValidAudience = "yourdomain.com",
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(Configuration["Llave"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Llave"])),
                         ClockSkew = TimeSpan.Zero
                     };
 
-                    /*options.Events = new JwtBearerEvents
+                    options.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>
                         {
@@ -75,9 +74,9 @@ namespace Doitclick
                             }
                             return Task.CompletedTask;
                         }
-                    };*/
+                    };
                 });
-
+            
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -86,7 +85,18 @@ namespace Doitclick
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //services.AddSignalRCore();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Acceso/Denegado");
+                options.Cookie.Name = "_SECURITY_";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(720);
+                options.LoginPath = new PathString("/");
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
+
+            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(ConfigureJson);
         }
 
@@ -113,17 +123,14 @@ namespace Doitclick
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            
 
-            //app.UseSignalR(routes => {
-            //    routes.MapHub<PushHub>("/hubs/push");
-            //});
-            /*app.UseSignalR(routes => {
+            app.UseSignalR(routes => {
                 routes.MapHub<PushHub>("/hubs/push");
-            });*/
+            });
 
             app.UseMvc(routes =>
             {
-                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Acceso}/{action=Login}/{id?}");

@@ -13,6 +13,12 @@ namespace Doitclick.Controllers
             return View();
         }
 
+        public IActionResult Denegado()
+        {
+            return Unauthorized();
+        }
+
+
         public IActionResult Add()
         {
             return View();

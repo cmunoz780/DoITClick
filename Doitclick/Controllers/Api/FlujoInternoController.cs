@@ -7,11 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 using Doitclick.Data;
 using Doitclick.Models.Application;
 using Doitclick.Services.Workflow;
+using Doitclick.Models.Helper;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
+using Doitclick.Models.Workflow;
 
 namespace Doitclick.Controllers.Api
 {
     [Route("api/flujo-interno")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class FlujoInternoController : ControllerBase
     {
 
@@ -27,8 +35,14 @@ namespace Doitclick.Controllers.Api
 
         [Route("ingreso-datos-paciente")]
         [HttpPost]
-        public async Task<IActionResult> GuardarIngresoDatosPaciente([FromBody]  Doitclick.Models.Helper.FomularioIngresoDatosPaciente paciente)
+        public async Task<IActionResult> GuardarIngresoDatosPaciente([FromBody]  FomularioIngresoDatosPaciente paciente)
         {
+            int total = 0;
+            string esPredeterminado = "1";
+            //Genera instancia WF ya que aqui es donde empieza todo el proceso
+            string resumen = "Paciente: " + paciente.RutPaciente + " - " + paciente.ApellidosPaciente + " " + paciente.NombrePaciente + ", Solicitda: " + paciente.DrSolicitante + ", Orden: " + paciente.NroOrden;
+            var solicitudGen = _wfService.Instanciar("FlujoPruebas", "17042783-1", resumen);
+            #region Paciente
             //Generar modelo de cliente que en este caso es un paciente que viene a la oficina
             Cliente _paciente = new Cliente
             {
@@ -36,10 +50,10 @@ namespace Doitclick.Controllers.Api
                 Rut = paciente.RutPaciente,
                 TipoCliente = TipoCliente.Paciente,
                 EsPersonalidadJuridica = false,
-                PrevisionSalud = _context.PrevisionesSalud.Where(p => p.Id == 1).FirstOrDefault()
+                PrevisionSalud = _context.PrevisionesSalud.FirstOrDefault(p => p.Id == paciente.PrevisionSalud)
             };
 
-            /*MetaDatosCliente _pacienteApellidos = new MetaDatosCliente
+            MetaDatosCliente _pacienteApellidos = new MetaDatosCliente
             {
                 Cliente = _paciente,
                 Clave = "Apellidos",
@@ -54,18 +68,83 @@ namespace Doitclick.Controllers.Api
                 Valor = paciente.NombrePaciente,
                 Orden = 2
             };
+            #endregion
 
-            _context.MetadatosClientes.Add(_pacienteApellidos);
-            _context.MetadatosClientes.Add(_pacienteNombres);*/
+            #region Telefono Movil
+            Contacto _telMovil = new Contacto
+            {
+                Cliente = _paciente,
+                EsPrincipal = true,
+                TipoContacto=TipoContacto.TelefonoMovil,
+                Resumen=paciente.Telefono,
+                
+            };
 
-            //Generar instancia WF ya que aqui es donde empieza todo el proceso
-            string resumen = "Resumen de pruebas";//paciente.RutPaciente + ", " + _paciente.Nombres + ", [Paciente|"+_paciente.PrevisionSalud.Nombre+"]";
-            _wfService.Instanciar("FlujoPruebas", "17042783-1", resumen);
+            #endregion
 
-            //Guardar datos paciente en base de datos
+            #region Correo
+            Contacto _correoPac = new Contacto
+            {
+                Cliente = _paciente,
+                EsPrincipal = true,
+                TipoContacto = TipoContacto.CorreoElectronico,
+                Resumen = paciente.Correo,
+            };
+
+            #endregion
+            
+
+
+            Cotizacion _cotizza = new Cotizacion
+            {
+                Cliente = _paciente,
+                DrSolicitante = paciente.DrSolicitante,
+                EsOT = false,
+                FechaCreacion = DateTime.Now,
+                FechaExpiracion = DateTime.Now.AddDays(10),
+                FolioSolicitante = paciente.NroOrden,
+                Resumen = "Creado el " + DateTime.Now.ToString(),
+                NumeroTicket = solicitudGen.NumeroTicket,
+                ImagenOrdenSolicitante = paciente.SrcImagen,
+                PrecioCotizacion = total
+            };
+
+            foreach(var x in paciente.Servicios)
+            {
+                ItemCotizar _itm;
+                if (x.id.Equals("Otro"))
+                {
+                    _itm = new ItemCotizar
+                    {
+                        Cotizacion = _cotizza,
+                        Descripcion = x.descripcion
+                    };
+                    esPredeterminado = "0";
+                }
+                else
+                {
+                    _itm = new ItemCotizar
+                    {
+                        Cotizacion = _cotizza,
+                        Servicio = _context.Servicios.FirstOrDefault(s => s.Id == Convert.ToInt32(x.id)),
+                        Cantidad = Convert.ToInt32(x.cantidad)
+                    };
+                    total += _itm.Cantidad * _itm.Servicio.ValorTotal;
+                }
+                _context.ItemsCorizar.Add(_itm);
+            }
+            _cotizza.PrecioCotizacion = total;
+            //Guardar datos
             _context.Clientes.Add(_paciente);
+            _context.MetadatosClientes.Add(_pacienteApellidos);
+            _context.MetadatosClientes.Add(_pacienteNombres);
+            _context.Contactos.Add(_telMovil);
+            _context.Contactos.Add(_correoPac);
+            _context.Cotizaciones.Add(_cotizza);
             var respuesta = await _context.SaveChangesAsync();
 
+            _wfService.AsignarVariable("ES_TRABAJO_PREDETERMINADO", esPredeterminado, solicitudGen.NumeroTicket);
+            _wfService.Avanzar("FlujoPruebas", EtapasFlujoInterno.IngresoDatosPaciente, solicitudGen.NumeroTicket, "17042783-1");
             return Ok("Datos guardados");
 
         }
@@ -76,13 +155,38 @@ namespace Doitclick.Controllers.Api
         public IActionResult ListarPacientes()
         {
 
-            var clientes = _context.Clientes;
+            var clientes = _context.Clientes.ToList();
+
             
             return Ok(clientes);
 
         }
 
+        [Route("bandeja-tareas")]
+        [HttpGet]
+        public async Task<IActionResult> BandejaTareas(int limit = 10, int offset = 0, string search = "")
+        {
 
+            var rut = User.Identity.Name;
+            var bandeja = from tarea in _context.Tareas
+                          .Include(t => t.Solicitud).ThenInclude(s => s.Proceso)
+                          .Include(t => t.Etapa)
+                          join cotiza in _context.Cotizaciones
+                          .Include(x=>x.Cliente) on tarea.Solicitud.NumeroTicket equals cotiza.NumeroTicket
+                          where tarea.Solicitud.Proceso.Id == 1 && tarea.Estado == EstadoTarea.Activada && tarea.AsignadoA == rut
+                          select new ListadoInicioContainer { Tarea = tarea, Cotizacion = cotiza };
+                          
 
+            
+            if (!string.IsNullOrEmpty(search))
+            {
+                bandeja = bandeja.Where(x => x.Tarea.Solicitud.NumeroTicket.Contains(search) || x.Cotizacion.Cliente.Rut.Contains(search) || x.Cotizacion.Cliente.Nombres.Contains(search));
+            }
+            
+            BootstrapTableResult<ListadoInicioContainer> salida = new BootstrapTableResult<ListadoInicioContainer>();
+            salida.total = bandeja.Count();
+            salida.rows = bandeja.Skip(offset).Take(limit).ToList();
+            return Ok(salida);
+        }
     }
 }
