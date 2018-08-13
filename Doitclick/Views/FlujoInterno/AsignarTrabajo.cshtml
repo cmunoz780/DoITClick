@@ -9,76 +9,88 @@
     <!--Nav Tabs-->
     <ul class="nav nav-tabs">
         <li class="active">
-            <a data-toggle="tab" href="#demo-lft-tab-1">Asignación de Trabajo <span class="badge badge-success">8</span></a>
+            <a data-toggle="tab" href="#demo-lft-tab-2">Asignación de Trabajo<span class="badge badge-purple">2</span></a>
         </li>
-        <li>
-            <a data-toggle="tab" href="#demo-lft-tab-2">Asignación de Cotización <span class="badge badge-purple">3</span></a>
-        </li>
-
     </ul>
-
     <!--Tabs Content-->
     <div class="tab-content">
         <div id="demo-lft-tab-1" class="tab-pane fade active in">
-            <p class="text-main text-semibold">Casos para asignar.</p>
-            <div class="panel-body">
-                <button id="demo-delete-row" class="btn btn-primary" disabled><i class="demo-pli-add"></i> Asignar trabajo</button>
-                <table id="demo-custom-toolbar" class="demo-add-niftycheck" data-toggle="table"
-                       data-url="../Assets/data/bs-table.json"
-                       data-toolbar="#demo-delete-row"
-                       data-search="true"
-                       data-show-refresh="true"
-                       data-show-toggle="true"
-                       data-show-columns="true"
-                       data-sort-name="id"
-                       data-page-list="[5, 10, 20]"
-                       data-page-size="5"
-                       data-pagination="true" data-show-pagination-switch="true">
-                    <thead>
-                        <tr>
-                            <th data-field="state" data-checkbox="true"></th>
-                            <th data-field="id" data-sortable="true" data-formatter="invoiceFormatter">N° Cotización</th>
-                            <th data-field="name" data-sortable="true">Rut Paciente</th>
-                            <th data-field="date" data-sortable="true" data-formatter="dateFormatter">N° Cotización</th>
-                            <th data-field="amount" data-align="center" data-sortable="true" data-sorter="priceSorter">Balance</th>
-                            <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Estado</th>
-                            <th data-field="track" data-align="center" data-sortable="true" data-formatter="trackFormatter">Asignado a.</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-
-        </div>
-        <div id="demo-lft-tab-2" class="tab-pane fade">
             <p class="text-main text-semibold">Second Tab Content</p>
             <div class="panel-body">
                 <button id="demo-delete-row-2" class="btn btn-primary" disabled><i class="demo-pli-add"></i> Asignar cotización</button>
-                <table id="demo-custom-toolbar-2" class="demo-add-niftycheck" data-toggle="table"
-                       data-url="../Assets/data/bs-table.json"
-                       data-toolbar="#demo-delete-row-2"
-                       data-search="true"
-                       data-show-refresh="true"
-                       data-show-toggle="true"
-                       data-show-columns="true"
-                       data-sort-name="id"
-                       data-page-list="[5, 10, 20]"
-                       data-page-size="5"
-                       data-pagination="true" data-show-pagination-switch="true">
-                    <thead>
-                        <tr>
-                            <th data-field="state" data-checkbox="true"></th>
-                            <th data-field="id" data-sortable="true" data-formatter="invoiceFormatter">N° Cotización</th>
-                            <th data-field="name" data-sortable="true">Rut Paciente</th>
-                            <th data-field="date" data-sortable="true" data-formatter="dateFormatter">N° Cotización</th>
-                            <th data-field="amount" data-align="center" data-sortable="true" data-sorter="priceSorter">Balance</th>
-                            <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Estado</th>
-                            <th data-field="track" data-align="center" data-sortable="true" data-formatter="trackFormatter">Asignado a.</th>
-                        </tr>
-                    </thead>
+                <table id="tabla-cotizaciones" class="demo-add-niftycheck">
+
+                    <tbody id="bodylistar"></tbody>
                 </table>
             </div>
         </div>
+
     </div>
 </div>
+
+@section Scripts{
+
+    <script>
+
+        (function ($) {
+            $.fn.serializeFormJSON = function () {
+
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name]) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+        })(jQuery);
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/asigna-trabajo",
+                //contentType: "application/json; charset=utf-8",
+                //dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $.each(data, function (i, e) {
+                        $("#bodylistar")
+                            .append(
+                                $("<tr>")
+                                    .append($("<td>").append(e.cliente.rut))
+                                    .append($("<td>").append(e.numeroTicket))
+                                    .append($("<td>").append(0))
+                                    .append($("<td>").append(
+                                        $("<select>").addClass('dropdown-caret').css('width', '88px').css('border-radius', '6px').append(
+                                            $('<option data-icon="fa fa-paint-brush">').val('Seleccione').text("Seleccione..."),
+                                            $('<option>').val(1).text("Carlos Pradenas"),
+                                            $('<option>').val(2).text("Cristian Muñoz"),
+                                            $('<option>').val(3).text("Oscar Veliz")))))
+                    });
+                    $("#tabla-cotizaciones").bootstrapTable({
+                        columns: [{
+                            title: 'Rut Paciente'
+                        }, {
+                            title: 'N° Cotizacion'
+                        }, {
+                            title: 'Balance'
+                        }, {
+                            title: 'Asignado A'
+                        }]
+                    });
+                },
+                failure: function (errMsg) {
+                    console.log(errMsg);
+                }
+            });
+        });
+    </script>
+
+}
 
 
