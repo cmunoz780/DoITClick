@@ -9,6 +9,7 @@ namespace Doitclick.Models.Workflow
     {
         Usuario,
         Rol,
-        Boot
+        Boot,
+        Funk
     }
 }

@@ -18,6 +18,7 @@ namespace Doitclick.Models.Application
 
         public string DrSolicitante { get; set; }
         public string FolioSolicitante { get; set; }
+        public string ImagenOrdenSolicitante { get; set; }
         public bool EsOT { get; set; }
         public EstadoEvaluacion EstadoEvaluacion { get; set; }
         public ICollection<ItemCotizar> ItemsCotizar { get; set; }

@@ -79,10 +79,10 @@
                     dataType: "json",
                     success: function (data) {
                         console.log(data);
-
-
                         localStorage.setItem('token', data.token);
                         localStorage.setItem('tokenExpiration', data.expiration);
+
+                        location.href = '/mi-gestion';
                     },
                     failure: function (errMsg) {
                         console.log(errMsg);
