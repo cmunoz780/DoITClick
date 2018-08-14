@@ -62,11 +62,11 @@
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            @*<label for="x">Valor Mano de Obra</label>
+                            <label for="x">Valor Mano de Obra</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
-                                <input type="text" id="ValorManoObra" name="ValorManoObra" class="form-control">
-                            </div>*@
+                                <input type="text" id="ValorMateriales" name="ValorMateriales" class="form-control">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -74,15 +74,15 @@
                             <label for="x">Materiales $</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-add-user-star"></i></span>
-                                <input type="text" id="ValorMateriales" name="ValorMateriales" class="form-control">
+                                <input type="text" id="ValorComision" name="ValorComision" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            @*<label for="x">Total</label>
+                           *<label for="x">Total</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
                                 <input type="text" id="ValorTotal" name="ValorTotal" class="form-control">
-                            </div>*@
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -94,38 +94,15 @@
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            @*<label for="x">% Comision</label>
+                            <label for="x">% Comision</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
                                 <input type="text" id="PorcComision" name="PorcComision" class="form-control">
-                            </div>*@
+                            </div>
                         </div>
                     </div>
 
                     <hr />
-                    @*<div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <label for="x">Dr. Solicitante</label>
-                                <div class="input-group mar-btm">
-                                    <span class="input-group-addon"><i class="demo-pli-male"></i></span>
-                                    <input type="text" id="DrSolicitante" name="DrSolicitante" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-3">
-                                <label for="x">N° de Orden</label>
-                                <div class="input-group mar-btm">
-                                    <span class="input-group-addon"><i class="demo-pli-list-view"></i></span>
-                                    <input type="text" id="NroOrden" name="NroOrden" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-3">
-                                <label for="TiempoEstimado">Tiempo estimado OT</label>
-                                <div class="input-group mar-btm">
-                                    <span class="input-group-addon"><i class="demo-pli-gear"></i></span>
-                                    <input type="text" id="TiempoEstimado" name="TiempoEstimado" class="form-control">
-                                </div>
-                            </div>
-                        </div>*@
                     <div class="row">
                         <div class="col-lg-12">
                             <table id="listado" class="table table-bordered table-hover toggle-circle" data-page-size="15">
@@ -204,11 +181,11 @@
                     console.log(errMsg);
                 }
             });
-            $('#frm-ingreso-datos-materiales').on("submit", function () {
+            $('#frm-ingreso-servicios').on("submit", function () {
                 const model = $(this).serializeFormJSON();
                 $.ajax({
                     type: "POST",
-                    url: "/api/mantenedor/materiales",
+                    url: "/api/mantenedor/servicios",
                     data: JSON.stringify(model),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
