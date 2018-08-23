@@ -61,48 +61,19 @@
                                 <input type="text" id="VManoObra" name="VManoObra" class="form-control">
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6">
-                            <label for="x">Valor Mano de Obra</label>
-                            <div class="input-group mar-btm">
-                                <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
-                                <input type="text" id="ValorMateriales" name="ValorMateriales" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <label for="x">Materiales $</label>
-                            <div class="input-group mar-btm">
-                                <span class="input-group-addon"><i class="demo-pli-add-user-star"></i></span>
-                                <input type="text" id="ValorComision" name="ValorComision" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                           *<label for="x">Total</label>
-                            <div class="input-group mar-btm">
-                                <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
-                                <input type="text" id="ValorTotal" name="ValorTotal" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <label for="x">Total</label>
-                            <div class="input-group mar-btm">
-                                <span class="input-group-addon"><i class="demo-pli-add-user-star"></i></span>
-                                <input type="text" id="Total" name="Total" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
+                         <div class="col-sm-12 col-md-6">
                             <label for="x">% Comision</label>
                             <div class="input-group mar-btm">
                                 <span class="input-group-addon"><i class="demo-pli-mail"></i></span>
-                                <input type="text" id="PorcComision" name="PorcComision" class="form-control">
+                                <input type="text" id="PorcentajeComision" name="PorcentajeComision" class="form-control">
                             </div>
                         </div>
+                     
                     </div>
-
                     <hr />
+                    <div class="mar-btm">
+                        <button type="button" class="btn btn-primary" id="btnaddmaterial" data-toggle="modal" data-target="#modal-materiales">Agregar Material</button>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <table id="listado" class="table table-bordered table-hover toggle-circle" data-page-size="15">
@@ -114,13 +85,15 @@
                                         <th data-toggle="true">Stock Alerta</th>
                                     </tr>
                                 </thead>
-                                <tbody id="bodylistar"></tbody>
+                                <tbody>
+                                    
+                                </tbody>
                             </table>
                         </div>
 
                         <div class="text-right no-print">
                             <a href="javascript:window.print()" class="btn btn-default"><i class="demo-pli-printer icon-lg"></i></a>
-                            <button class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -131,73 +104,44 @@
 
 </form>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal-materiales" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Agregar Material</h4>
+      </div>
+      <div class="modal-body">
+        <form >
+             <div class="form-group">
+                <label for="material">Material</label>
+                <select class="form-control" id="material" >
+                    <option value="">Seleccione</option>
+                    @foreach(var material in ViewBag.MaterialesDisponibles){
+                        <option data-valor="@material.PrecioUnidad" data-um="@material.UnidadMedida" data-stocka="@material.StockAlerta" value="@material.Id">@material.Nombre</option>
+                    }
+                </select>
+            </div>
+             <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="text" class="form-control" id="cantidad" placeholder="Ingresa la cantidad">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary btn-guardar-material">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 @section Scripts{
     <script src="~/Assets/plugins/fooTable/dist/footable.all.min.js"></script>
-    <script>
-
-        (function ($) {
-            $.fn.serializeFormJSON = function () {
-
-                var o = {};
-                var a = this.serializeArray();
-                $.each(a, function () {
-                    if (o[this.name]) {
-                        if (!o[this.name].push) {
-                            o[this.name] = [o[this.name]];
-                        }
-                        o[this.name].push(this.value || '');
-                    } else {
-                        o[this.name] = this.value || '';
-                    }
-                });
-                return o;
-            };
-        })(jQuery);
-
-
-
-        $(function () {
-            $.ajax({
-                type: "GET",
-                url: "/api/mantenedor/materiales",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    $.each(data, function (i, e) {
-                        $("#bodylistar")
-                            .append(
-                                $("<tr>")
-                                    .append($("<td>").append(e.nombre))
-                                    .append($("<td>").append(e.unidadMedida))
-                                    .append($("<td>").append(e.precioUnidad))
-                                    .append($("<td>").append(e.stockAlerta))
-                            )
-
-
-                    });
-                },
-                failure: function (errMsg) {
-                    console.log(errMsg);
-                }
-            });
-            $('#frm-ingreso-servicios').on("submit", function () {
-                const model = $(this).serializeFormJSON();
-                $.ajax({
-                    type: "POST",
-                    url: "/api/mantenedor/servicios",
-                    data: JSON.stringify(model),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) { console.log(data); },
-                    failure: function (errMsg) {
-                        console.log(errMsg);
-                    }
-                });
-
-                return false;
-            });
-
-        });
-    </script>
+    <script src="~/js/Mantenedores/Servicios.min.js"></script>
 }
