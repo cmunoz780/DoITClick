@@ -1,6 +1,112 @@
 ﻿@{
     ViewData["Title"] = "Asignar Cotización";
 }
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<div class="tab-base">
+
+    <!--Nav Tabs-->
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a data-toggle="tab" href="#demo-lft-tab-1">Asignación de Cotización<span class="badge badge-success">3</span></a>
+        </li>
+    </ul>
+    <!--Tabs Content-->
+    <div class="tab-content">
+        <div id="demo-lft-tab-1" class="tab-pane fade active in">
+            <p class="text-main text-semibold">Second Tab Content</p>
+            <div class="panel-body">
+                <button id="demo-delete-row-2" class="btn btn-primary" disabled><i class="demo-pli-add"></i> Asignar cotización</button>
+                <table id="tabla-cotizaciones" class="demo-add-niftycheck">
+
+                    <tbody id="bodylistar"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+<script>
+
+    (function ($) {
+        $.fn.serializeFormJSON = function () {
+
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    })(jQuery);
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/asigna-cotizacion",
+            //contentType: "application/json; charset=utf-8",
+            //dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (i, e) {
+                    console.log(i, e)
+                    var estado = '';
+                    switch (e.estadoEvaluacion) {
+                        case 0:
+                            estado = 'Sin Evaluar';
+                            break;
+                        case 1:
+                            estado = 'Aprobado';
+                            break;
+                        case 2:
+                            estado = 'Rechazado';
+                            break;
+                    }
+                    $("#bodylistar")
+                        .append(
+                            $("<tr>")
+                                .append($("<td>").append(e.cliente.rut))
+                                .append($("<td>").append(e.numeroTicket))
+                                .append($("<td>").append(e.precioCotizacion))
+                                .append($("<td>").append(estado))
+                                .append($("<td>").append(
+                                    $("<select>").addClass('dropdown-caret').css('width', '88px').css('border-radius', '6px').append(
+                                        $('<option data-icon="fa fa-paint-brush">').val('Seleccione').text("Seleccione..."),
+                                        $('<option>').val(1).text("Carlos Pradenas"),
+                                        $('<option>').val(2).text("Cristian Muñoz"),
+                                        $('<option>').val(3).text("Oscar Veliz")))))
+                        });
+                $("#tabla-cotizaciones").bootstrapTable({
+                    columns: [{
+                        title: 'Rut Paciente'
+                    }, {
+                        title: 'N° Cotizacion'
+                    }, {
+                        title: 'Balance'
+                    }, {
+                        title: 'Estado'
+                    }, {
+                        title: 'Asignado A'
+                    }]
+                });
+            },
+            failure: function (errMsg) {
+                console.log(errMsg);
+            }
+        });
+    });
+</script>
+
+}
 
 
 

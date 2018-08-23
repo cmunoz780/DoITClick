@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace Doitclick.Models.Application
 {
-    public enum UnidadMedida
+    public enum EstadoEvaluacion
     {
-        Granel,
-        Gramos,
-        Kilogramos,
-        Litros
+        SinEvaluar,
+        Aprobado,
+        Rechazado
     }
 }
