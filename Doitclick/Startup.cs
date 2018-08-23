@@ -58,7 +58,7 @@ namespace Doitclick
                         ClockSkew = TimeSpan.Zero
                     };
 
-                    options.Events = new JwtBearerEvents
+                    /*options.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>
                         {
@@ -74,7 +74,7 @@ namespace Doitclick
                             }
                             return Task.CompletedTask;
                         }
-                    };
+                    };*/
                 });
             
 
