@@ -19,15 +19,15 @@ function initTable() {
                 title: 'Ticket',
                 field: 'tarea.solicitud.numeroTicket',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return '<a href="#" class="btn-link">' + value + '</a>';
+                }
             }, {
                 title: 'Tarea',
                 field: 'tarea.etapa.nombre',
                 align: 'center',
-                valign: 'middle',
-                formatter: function (value, row, index) {
-                    return '<a href="#" class="btn-link">'+value+'</a>';
-                }
+                valign: 'middle'
             }, {
                 title: 'Paciente',
                 field: 'cotizacion.cliente.nombres',
