@@ -24,5 +24,12 @@ namespace Doitclick.Controllers
         {
             return View();
         }
+
+        [Route("etapas/{etapa}")]
+        public IActionResult Etapa([FromRoute] string etapa)
+        {
+            ViewBag.etapaNombre = etapa;
+            return View();
+        }
     }
 }
