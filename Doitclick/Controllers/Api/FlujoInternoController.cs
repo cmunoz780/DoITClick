@@ -172,8 +172,35 @@ namespace Doitclick.Controllers.Api
                           .Include(t => t.Solicitud).ThenInclude(s => s.Proceso)
                           .Include(t => t.Etapa)
                           join cotiza in _context.Cotizaciones
-                          .Include(x=>x.Cliente) on tarea.Solicitud.NumeroTicket equals cotiza.NumeroTicket
+                          .Include(x => x.Cliente) on tarea.Solicitud.NumeroTicket equals cotiza.NumeroTicket
                           where tarea.Solicitud.Proceso.Id == 1 && tarea.Estado == EstadoTarea.Activada && tarea.AsignadoA == rut
+                          select new ListadoInicioContainer { Tarea = tarea, Cotizacion = cotiza };
+
+
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                bandeja = bandeja.Where(x => x.Tarea.Solicitud.NumeroTicket.Contains(search) || x.Cotizacion.Cliente.Rut.Contains(search) || x.Cotizacion.Cliente.Nombres.Contains(search));
+            }
+
+            BootstrapTableResult<ListadoInicioContainer> salida = new BootstrapTableResult<ListadoInicioContainer>();
+            salida.total = bandeja.Count();
+            salida.rows = bandeja.Skip(offset).Take(limit).ToList();
+            return Ok(salida);
+        }
+
+        [Route("bandeja-tareas/{etapa}")]
+        [HttpGet]
+        public async Task<IActionResult> BandejaTareas([FromRoute] string etapa, int limit = 10, int offset = 0, string search = "")
+        {
+
+            var rut = User.Identity.Name;
+            var bandeja = from tarea in _context.Tareas
+                          .Include(t => t.Solicitud).ThenInclude(s => s.Proceso)
+                          .Include(t => t.Etapa)
+                          join cotiza in _context.Cotizaciones
+                          .Include(x=>x.Cliente) on tarea.Solicitud.NumeroTicket equals cotiza.NumeroTicket
+                          where tarea.Solicitud.Proceso.Id == 1 && tarea.Estado == EstadoTarea.Activada && tarea.AsignadoA == rut && tarea.Etapa.NombreInterno == etapa
                           select new ListadoInicioContainer { Tarea = tarea, Cotizacion = cotiza };
                           
 
