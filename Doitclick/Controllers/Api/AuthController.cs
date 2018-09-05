@@ -123,6 +123,33 @@ namespace Doitclick.Controllers.Api
 
         }
 
+
+        [Route("User/CreateNew")]
+        [HttpPost]
+        public async Task<IActionResult> CreateNewUser([FromBody] InfoUsuario model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = new Usuario { UserName = model.Identificacion, Email = model.Correo, Identificador = model.Identificacion, Nombres = model.Nombres };
+                var result = await _userManager.CreateAsync(user, model.Llave);
+                if (result.Succeeded)
+                {
+                    return BuildToken(model);
+                }
+                else
+                {
+                    return BadRequest("Username or password invalid");
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
+        }
+
+
         [Route("Role/Create")]
         [HttpPost]
         public async Task<IActionResult> CreaRol([FromBody] InfoRol model)
