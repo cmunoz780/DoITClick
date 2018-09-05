@@ -1,0 +1,1 @@
+const unidadesMedida = Array('Granel', 'Gramos', 'Kilogramos', 'Litros');

@@ -3,7 +3,8 @@
     "outputFileName": "wwwroot/js/ext.min.js",
     "inputFiles": [
       "Client/configuracion.js",
-      "Client/extensiones.js"
+      "Client/extensiones.js",
+      "Client/constantes.js"
     ],
     "minify": {
       "enabled": true,
@@ -25,6 +26,12 @@
     "outputFileName": "wwwroot/js/inicio.min.js",
     "inputFiles": [
       "Client/inicio.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Mantenedores/Servicios.min.js",
+    "inputFiles": [
+      "Client/Mantenedores/Servicios.js"
     ]
   }
 ]

@@ -13,4 +13,6 @@ namespace Doitclick.Models.Helper
         public string valor { get; set; }
         public string cantidad { get; set; }
     }
+     
+    
 }
