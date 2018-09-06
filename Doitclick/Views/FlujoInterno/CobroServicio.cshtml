@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Ejecutar Trabajo";
+    ViewData["Title"] = "Cobro de Servicios";
 }
 
 <form id="frm-ingreso-datos-paciente">
@@ -23,11 +23,13 @@
                     <h3 class="panel-title">
                         <ol class="breadcrumb">
                             <li></li>
-                            <li class="active">Ejecutar Trabajo</li>
+                            <li class="active">@ViewData["Title"]</li>
                         </ol>
                     </h3>
                 </div>
                 <div class="panel-body">
+
+
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <label for="RutPaciente">Paciente</label>
@@ -48,12 +50,13 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12">
-
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Servicio</th>
                                         <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,16 +66,40 @@
                                             <small>Descripcion del servicio</small>
                                         </td>
                                         <td>1</td>
+                                        <td>30000</td>
+                                        <td>30000</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
- 
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="clearfix">
+                                <table class="table invoice-total">
+                                    <tbody>
+                                        <tr>
+                                            <td>Abonos:</td>
+                                            <td class="h4 showapagar">$0</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>A Pagar:</strong></td>
+                                            <td class="text-bold h4 showapagar">$0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                 
+
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="text-right no-print">
-                                <button class="btn btn-primary" id="btn-confirmar">Evaluar Confección Trabajo</button>
+                                <button class="btn btn-warning" id="btn-rechazar">Cliente Rechaza Presupuesto</button>
+                                <button class="btn btn-primary" id="btn-confirmar">Generar Recibo</button>
                             </div>
                         </div>
                     </div>
@@ -84,3 +111,27 @@
     </div>
 
 </form>
+@section styles{
+    <link href="~/Assets/plugins/chosen/chosen.min.css" rel="stylesheet">
+}
+@section Scripts{
+    <script src="~/lib/signalr.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $("#selResultadoEvaluacion").on("change", function (event) {
+                console.log($(this).val())
+                if ($(this).val() == "N") {
+                    $(".reparos").show();
+                    $(".cotiza").hide();
+                } else if ($(this).val() == "S") {
+                    $(".reparos").hide();
+                    $(".cotiza").show();
+                } else {
+                    $(".reparos").hide();
+                    $(".cotiza").hide();
+                }
+            });
+        });
+    </script>
+}
