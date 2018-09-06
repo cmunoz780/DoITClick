@@ -21,7 +21,8 @@ function initTable() {
                 align: 'center',
                 valign: 'middle',
                 formatter: function (value, row, index) {
-                    return '<a href="#" class="btn-link">' + value + '</a>';
+                    console.log(row.tarea.etapa.nombreInterno);
+                    return '<a href="/FlujoInterno/' + row.tarea.etapa.nombreInterno + '?ticket='+value+'" class="btn-link">' + value + '</a>';
                 }
             }, {
                 title: 'Tarea',

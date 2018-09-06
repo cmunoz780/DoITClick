@@ -2,7 +2,7 @@
     ViewData["Title"] = "Evaluar Cotización";
 }
 
-<form id="frm-ingreso-datos-paciente">
+<form id="frm-generico">
     <div class="row">
         <div class="col-lg-12">
             <div id="demo-panel-network" class="panel">
@@ -34,46 +34,26 @@
                         <div class="col-sm-12 col-md-6">
                             <label for="RutPaciente">Paciente</label>
                             <div class="input-group mar-btm">
-                                <strong>Carlos Antonio Pradenas Prexz</strong><br />
-                                <small>17.042.783-1</small><br />
-                                <small>Isapre Consalud</small>
+                                <strong>@ViewBag.Cotizacion.Cliente.Nombres</strong><br />
+                                <small>@ViewBag.Cotizacion.Cliente.Rut</small><br />
+                                <small>@ViewBag.Cotizacion.Cliente.PrevisionSalud</small>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <label for="RutPaciente">Dr. Solicitante</label>
                             <div class="input-group mar-btm">
-                                <strong>Ingacio Ponceaga Lareqoi</strong><br />
-                                <small>Orden Nro: 838753954349573</small><br />
-                                <a href="#!" class="btn-link"><small>Visualizar oden de trabajo</small></a>
+                                <strong>@ViewBag.Cotizacion.DrSolicitante</strong><br />
+                                <small>Orden Nro: @ViewBag.Cotizacion.FolioSolicitante</small><br />
+                                <a href="#!" data-toggle="modal" data-target="#modal-imagen" class="btn-link"><small>Visualizar oden de trabajo</small></a>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Servicio</th>
-                                        <th>Cantidad</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <strong>Servicio de carlos 1</strong><br />
-                                            <small>Descripcion del servicio</small>
-                                        </td>
-                                        <td>1</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
                     <div class="row">
                         <div class="col-sm-12">
-                            <label for="RutPaciente">¿Se puede realizar este trabajo?</label>
+                            <label for="RutPaciente">¿Se puede realizar esta cotización?</label>
                             <div class="input-group mar-btm">
-                                <select id="selResultadoEvaluacion" class="form-control">
+                                <select id="selResultadoEvaluacion" name="Resultado" class="form-control">
                                     <option value="">-</option>
                                     <option value="S">Si</option>
                                     <option value="N">No</option>
@@ -83,20 +63,20 @@
                     </div>
                     <div class="row reparos" style="display:none;">
                         <div class="col-sm-12 mar-btm">
-                            <label for="RutPaciente">Indique cuales son los motivos</label>
-                            <textarea id="monoqlo" class="form-control" rows="5" cols="20"></textarea>
+                            <label for="motivoReparo">Indique cuales son los motivos</label>
+                            <textarea id="motivoReparo" name="MotivoReparo" class="form-control" rows="5" cols="20"></textarea>
                         </div>
                     </div>
 
                     <div class="row cotiza" style="display:none;">
                         <div class="col-sm-12 mar-btm">
-                            <label for="RutPaciente">Describa Cotización</label>
-                            <textarea id="monoqlo" class="form-control" rows="5" cols="20"></textarea>
+                            <label for="descripcionCotizacion">Describa Cotización</label>
+                            <textarea id="descripcionCotizacion" name="DescripcionCotizacion" class="form-control" rows="5" cols="20"></textarea>
                         </div>
                         <div class="col-sm-12 mar-btm">
                             <label for="RutPaciente">Indique Valor de Cotización</label>
                             <div class="input-group mar-btm">
-                                <input type="text" class="form-control" />
+                                <input type="text" name="ValorCotizacion" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -104,6 +84,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="text-right no-print">
+                                <input type="hidden" name="NumeroTicket" value="@ViewBag.Cotizacion.NumeroTicket" />
                                 <button class="btn btn-primary" id="btn-confirmar">Guardar y Avanzar</button>
                             </div>
                         </div>
@@ -136,6 +117,13 @@
                     $(".reparos").hide();
                     $(".cotiza").hide();
                 }
+            });
+
+
+            $('#frm-generico').on('submit', function (e) {
+                e.preventDefault();
+                var model = $(this).serializeFormJSON();
+                console.log(model)
             });
         });
     </script>
