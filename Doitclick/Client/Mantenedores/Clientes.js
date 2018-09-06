@@ -1,4 +1,4 @@
-﻿var $table = $('#table');
+var $table = $('#table');
 
 function initTable() {
     var token = localStorage.getItem('token')
@@ -11,40 +11,32 @@ function initTable() {
         },
         columns: [
             {
-                title: 'Proceso',
-                field: 'tarea.solicitud.proceso.nombre',
+                title: 'Rut',
+                field: 'rut',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: 'Ticket',
-                field: 'tarea.solicitud.numeroTicket',
+                title: 'Nombre',
+                field: 'nombres',
                 align: 'center',
                 valign: 'middle',
-                formatter: function (value, row, index) {
-                    return '<a href="#" class="btn-link">' + value + '</a>';
-                }
+                
             }, {
-                title: 'Tarea',
-                field: 'tarea.etapa.nombre',
+                title: 'Tipo Cliente',
+                field: 'tipoCliente',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: 'Paciente',
-                field: 'cotizacion.cliente.nombres',
+                title: 'Personalidad',
+                field: 'esPersonalidadJuridica',
                 align: 'center',
                 valign: 'middle',
-                formatter: function (value, row, index) {
-                    return row.cotizacion.cliente.rut + ', ' + row.cotizacion.cliente.nombres;
-                }
+               
             },  {
-                title: 'Iniciado el',
-                field: 'tarea.fechaInicio',
+                title: 'Prevision',
+                field: 'previsionSalud',
                 align: 'center',
                 valign: 'middle',
-                formatter: function (value, row, index) {
-                    console.log(row);
-                    return new Date(value).toLocaleString();
-                }
             }
         ]
     });
@@ -90,8 +82,38 @@ function detailFormatter(index, row) {
 function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
-
-
+$(function(){
+    $('.es-rut').mask('99.999.999-*');
+})
 $(function () {
+  
     initTable();
+    $('#frm-ingreso-datos-cliente').on("submit", function () {
+        let model = $(this).serializeFormJSON();
+        
+        $.ajax({
+            type: "POST",
+            url: "/api/mantenedor/clientes/ingreso-datos-cliente",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+            
+        }).done(function (data) {
+            location.reload();
+            console.log(data);
+            const user = "Chachacharles";
+            const message = new Date().toString() + " Charly";
+            connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+            this.reset();
+        }).fail(function (errMsg) {
+            console.log(errMsg);
+            this.reset();
+        })
+        $('#frm-ingreso-datos-cliente')[0].reset();
+        return false;
+    
+    });
+    
+
+
 })

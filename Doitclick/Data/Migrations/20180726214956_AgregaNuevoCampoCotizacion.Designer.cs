@@ -3,14 +3,16 @@ using System;
 using Doitclick.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Doitclick.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180726214956_AgregaNuevoCampoCotizacion")]
+    partial class AgregaNuevoCampoCotizacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +33,7 @@ namespace Doitclick.Data.Migrations
 
                     b.Property<string>("Rut");
 
-                    b.Property<string>("TipoCliente")
-                        .IsRequired();
+                    b.Property<int>("TipoCliente");
 
                     b.HasKey("Id");
 
@@ -81,8 +82,6 @@ namespace Doitclick.Data.Migrations
 
                     b.Property<string>("FolioSolicitante");
 
-                    b.Property<string>("ImagenOrdenSolicitante");
-
                     b.Property<string>("NumeroTicket");
 
                     b.Property<int>("PrecioCotizacion");
@@ -117,11 +116,7 @@ namespace Doitclick.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Cantidad");
-
                     b.Property<int?>("CotizacionId");
-
-                    b.Property<string>("Descripcion");
 
                     b.Property<int?>("ServicioId");
 
