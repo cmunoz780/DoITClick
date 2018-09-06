@@ -18,7 +18,6 @@ namespace Doitclick.Controllers
             _context = context;
         }
 
-
         public IActionResult IngresoDatosPaciente()
         {
             ViewBag.Servicios = _context.Servicios.ToList();
@@ -51,6 +50,15 @@ namespace Doitclick.Controllers
             return View();
         }
 
+        public IActionResult IngresaSolicitud()
+        {
+            return View();
+        }
+
+        public IActionResult EnviaSolicitud()
+        {
+            return View();
+        }
 
     }
 }
