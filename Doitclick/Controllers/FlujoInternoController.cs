@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Doitclick.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Doitclick.Controllers
 {
@@ -17,6 +18,7 @@ namespace Doitclick.Controllers
         {
             _context = context;
         }
+
 
         public IActionResult IngresoDatosPaciente()
         {
@@ -30,8 +32,13 @@ namespace Doitclick.Controllers
             return View();
         }
 
-        public IActionResult EvaluarTrabajo()
+        public IActionResult EvaluarTrabajo(string ticket)
         {
+            var cotizacion = _context.Cotizaciones.Include(x => x.Cliente).Where(c => c.NumeroTicket == ticket).FirstOrDefault();
+            var servicios = _context.ItemsCorizar.Include(x => x.Servicio).Include(s => s.Cotizacion).Where(d => d.Cotizacion.Id == cotizacion.Id).ToList();
+            
+            ViewBag.Cotizacion = cotizacion;
+            ViewBag.Servicios = servicios;
             return View();
         }
 
@@ -50,15 +57,9 @@ namespace Doitclick.Controllers
             return View();
         }
 
-        public IActionResult IngresaSolicitud()
+        public IActionResult CobroServicio()
         {
             return View();
         }
-
-        public IActionResult EnviaSolicitud()
-        {
-            return View();
-        }
-
     }
 }

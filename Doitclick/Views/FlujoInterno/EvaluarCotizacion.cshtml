@@ -74,6 +74,7 @@
                             <label for="RutPaciente">¿Se puede realizar este trabajo?</label>
                             <div class="input-group mar-btm">
                                 <select id="selResultadoEvaluacion" class="form-control">
+                                    <option value="">-</option>
                                     <option value="S">Si</option>
                                     <option value="N">No</option>
                                 </select>
@@ -84,6 +85,19 @@
                         <div class="col-sm-12 mar-btm">
                             <label for="RutPaciente">Indique cuales son los motivos</label>
                             <textarea id="monoqlo" class="form-control" rows="5" cols="20"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row cotiza" style="display:none;">
+                        <div class="col-sm-12 mar-btm">
+                            <label for="RutPaciente">Describa Cotización</label>
+                            <textarea id="monoqlo" class="form-control" rows="5" cols="20"></textarea>
+                        </div>
+                        <div class="col-sm-12 mar-btm">
+                            <label for="RutPaciente">Indique Valor de Cotización</label>
+                            <div class="input-group mar-btm">
+                                <input type="text" class="form-control" />
+                            </div>
                         </div>
                     </div>
 
@@ -112,10 +126,15 @@
 
             $("#selResultadoEvaluacion").on("change", function (event) {
                 console.log($(this).val())
-                if ($(this).val() == "S") {
-                    $(".reparos").hide();
-                } else {
+                if ($(this).val() == "N") {
                     $(".reparos").show();
+                    $(".cotiza").hide();
+                } else if ($(this).val() == "S") {
+                    $(".reparos").hide();
+                    $(".cotiza").show();
+                } else {
+                    $(".reparos").hide();
+                    $(".cotiza").hide();
                 }
             });
         });

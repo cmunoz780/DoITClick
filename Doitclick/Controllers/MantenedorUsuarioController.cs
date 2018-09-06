@@ -14,5 +14,15 @@ namespace Doitclick.Controllers
         {
             return View();
         }
+
+        public IActionResult Listado()
+        {
+            return View();
+        }
+
+        public IActionResult Formulario()
+        {
+            return View();
+        }
     }
 }

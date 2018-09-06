@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Evaluar Trabajo";
+    ViewData["Title"] = "Cobro de Servicios";
 }
 
 <form id="frm-ingreso-datos-paciente">
@@ -23,26 +23,28 @@
                     <h3 class="panel-title">
                         <ol class="breadcrumb">
                             <li></li>
-                            <li class="active">Evaluar Trabajo</li>
+                            <li class="active">@ViewData["Title"]</li>
                         </ol>
                     </h3>
                 </div>
                 <div class="panel-body">
+
+
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <label for="RutPaciente">Paciente</label>
                             <div class="input-group mar-btm">
-                                <strong>@ViewBag.Cotizacion.Cliente.Nombres</strong><br />
-                                <small>@ViewBag.Cotizacion.Cliente.Rut</small><br />
-                                <small>@ViewBag.Cotizacion.Cliente.PrevisionSalud</small>
+                                <strong>Carlos Antonio Pradenas Prexz</strong><br />
+                                <small>17.042.783-1</small><br />
+                                <small>Isapre Consalud</small>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <label for="RutPaciente">Dr. Solicitante</label>
                             <div class="input-group mar-btm">
-                                <strong>@ViewBag.Cotizacion.DrSolicitante</strong><br />
-                                <small>Orden Nro: @ViewBag.Cotizacion.FolioSolicitante</small><br />
-                                <a href="#!" data-toggle="modal" data-target="#modal-imagen" class="btn-link"><small>Visualizar oden de trabajo</small></a>
+                                <strong>Ingacio Ponceaga Lareqoi</strong><br />
+                                <small>Orden Nro: 838753954349573</small><br />
+                                <a href="#!" class="btn-link"><small>Visualizar oden de trabajo</small></a>
                             </div>
                         </div>
                     </div>
@@ -53,45 +55,51 @@
                                     <tr>
                                         <th>Servicio</th>
                                         <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var itm in ViewBag.Servicios)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <strong>@itm.Servicio.Nombre</strong><br />
-                                                <small>@itm.Servicio.Resumen</small>
-                                            </td>
-                                            <td>@itm.Cantidad</td>
-                                        </tr>
-                                    }
+                                    <tr>
+                                        <td>
+                                            <strong>Servicio de carlos 1</strong><br />
+                                            <small>Descripcion del servicio</small>
+                                        </td>
+                                        <td>1</td>
+                                        <td>30000</td>
+                                        <td>30000</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <label for="RutPaciente">¿Se puede realizar este trabajo?</label>
-                            <div class="input-group mar-btm">
-                                <select id="selResultadoEvaluacion" class="form-control">
-                                    <option value="S">Si</option>
-                                    <option value="N">No</option>
-                                </select>
+                            <div class="clearfix">
+                                <table class="table invoice-total">
+                                    <tbody>
+                                        <tr>
+                                            <td>Abonos:</td>
+                                            <td class="h4 showapagar">$0</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>A Pagar:</strong></td>
+                                            <td class="text-bold h4 showapagar">$0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <div class="row reparos" style="display:none;">
-                        <div class="col-sm-12 mar-btm">
-                            <label for="RutPaciente">Indique cuales son los motivos</label>
-                            <textarea id="monoqlo" class="form-control" rows="5" cols="20"></textarea>
-                        </div>
-                    </div>
+                   
+
+                 
 
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="text-right no-print">
-                                <button class="btn btn-primary" id="btn-confirmar">Guardar y Avanzar</button>
+                                <button class="btn btn-warning" id="btn-rechazar">Cliente Rechaza Presupuesto</button>
+                                <button class="btn btn-primary" id="btn-confirmar">Generar Recibo</button>
                             </div>
                         </div>
                     </div>
@@ -103,26 +111,6 @@
     </div>
 
 </form>
-
-
-<!-- Modal -->
-<div class="modal fade" id="modal-imagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Imagen Orden de Trabajo</h4>
-            </div>
-            <div class="modal-body">
-                <img src="@ViewBag.Cotizacion.ImagenOrdenSolicitante" alt="Orden de Trabajo" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section styles{
     <link href="~/Assets/plugins/chosen/chosen.min.css" rel="stylesheet">
 }
@@ -133,10 +121,15 @@
 
             $("#selResultadoEvaluacion").on("change", function (event) {
                 console.log($(this).val())
-                if ($(this).val() == "S") {
-                    $(".reparos").hide();
-                } else {
+                if ($(this).val() == "N") {
                     $(".reparos").show();
+                    $(".cotiza").hide();
+                } else if ($(this).val() == "S") {
+                    $(".reparos").hide();
+                    $(".cotiza").show();
+                } else {
+                    $(".reparos").hide();
+                    $(".cotiza").hide();
                 }
             });
         });

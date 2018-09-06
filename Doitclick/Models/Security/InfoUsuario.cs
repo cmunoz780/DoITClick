@@ -11,6 +11,7 @@ namespace Doitclick.Models.Security
         public string Identificacion { get; set; }
         public string Correo { get; set; }
         public string Llave { get; set; }
+        public string TipoUsuario { get; set; }
 
     }
 }
