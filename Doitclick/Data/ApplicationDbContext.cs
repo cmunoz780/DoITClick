@@ -136,13 +136,6 @@ namespace Doitclick.Data
                     v => (TipoDuracion)Enum.Parse(typeof(TipoDuracion), v))
                 );
 
-            builder.Entity<Cotizacion>()
-                .Property(d => d.EstadoEvaluacion)
-                .HasConversion(new ValueConverter<EstadoEvaluacion, string>(
-                    v => v.ToString(),
-                    v => (EstadoEvaluacion)Enum.Parse(typeof(EstadoEvaluacion), v))
-                );
-
             builder.Entity<Solicitud>()
                 .Property(d => d.Estado)
                 .HasConversion( new ValueConverter<EstadoSolicitud, string>(

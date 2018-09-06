@@ -33,5 +33,11 @@
     "inputFiles": [
       "Client/Mantenedores/Servicios.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Mantenedores/Cliente.min.js",
+    "inputFiles": [
+      "Client/Mantenedores/Clientes.js"
+    ]
   }
 ]
