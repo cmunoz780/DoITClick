@@ -20,15 +20,20 @@ namespace Doitclick.Controllers
         }
 
 
-        public IActionResult IngresoDatosPaciente()
+        public IActionResult IngresoDatosPaciente(string ticket = "")
         {
             ViewBag.Servicios = _context.Servicios.ToList();
             ViewBag.PrevisionesSalud = _context.PrevisionesSalud.ToList();
             return View();
         }
 
-        public IActionResult AsignarTrabajo()
+        public IActionResult AsignarTrabajo(string ticket)
         {
+            var cotizacion = _context.Cotizaciones.Include(x => x.Cliente).Where(c => c.NumeroTicket == ticket).FirstOrDefault();
+            var servicios = _context.ItemsCorizar.Include(x => x.Servicio).Include(s => s.Cotizacion).Where(d => d.Cotizacion.Id == cotizacion.Id).ToList();
+
+            ViewBag.Cotizacion = cotizacion;
+            ViewBag.Servicios = servicios;
             return View();
         }
 
@@ -42,23 +47,43 @@ namespace Doitclick.Controllers
             return View();
         }
 
-        public IActionResult AsignarCotizacion()
+        public IActionResult AsignarCotizacion(string ticket)
         {
+            var cotizacion = _context.Cotizaciones.Include(x => x.Cliente).Where(c => c.NumeroTicket == ticket).FirstOrDefault();
+            var servicios = _context.ItemsCorizar.Include(x => x.Servicio).Include(s => s.Cotizacion).Where(d => d.Cotizacion.Id == cotizacion.Id).ToList();
+
+            ViewBag.Cotizacion = cotizacion;
+            ViewBag.Servicios = servicios;
             return View();
         }
 
-        public IActionResult EvaluarCotizacion()
+        public IActionResult EvaluarCotizacion(string ticket)
         {
+            var cotizacion = _context.Cotizaciones.Include(x => x.Cliente).Where(c => c.NumeroTicket == ticket).FirstOrDefault();
+            var servicios = _context.ItemsCorizar.Include(x => x.Servicio).Include(s => s.Cotizacion).Where(d => d.Cotizacion.Id == cotizacion.Id).ToList();
+
+            ViewBag.Cotizacion = cotizacion;
+            ViewBag.Servicios = servicios;
             return View();
         }
 
-        public IActionResult EjecutarTrabajo()
+        public IActionResult EjecutarTrabajo(string ticket)
         {
+            var cotizacion = _context.Cotizaciones.Include(x => x.Cliente).Where(c => c.NumeroTicket == ticket).FirstOrDefault();
+            var servicios = _context.ItemsCorizar.Include(x => x.Servicio).Include(s => s.Cotizacion).Where(d => d.Cotizacion.Id == cotizacion.Id).ToList();
+
+            ViewBag.Cotizacion = cotizacion;
+            ViewBag.Servicios = servicios;
             return View();
         }
 
-        public IActionResult CobroServicio()
+        public IActionResult CobroServicio(string ticket)
         {
+            var cotizacion = _context.Cotizaciones.Include(x => x.Cliente).Where(c => c.NumeroTicket == ticket).FirstOrDefault();
+            var servicios = _context.ItemsCorizar.Include(x => x.Servicio).Include(s => s.Cotizacion).Where(d => d.Cotizacion.Id == cotizacion.Id).ToList();
+
+            ViewBag.Cotizacion = cotizacion;
+            ViewBag.Servicios = servicios;
             return View();
         }
     }

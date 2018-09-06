@@ -158,7 +158,7 @@ namespace Doitclick.Controllers.Api
 
             _wfService.AsignarVariable("RESPONSABLE_TRABAJO", entrada.UsuarioAsignado, entrada.NumeroTicket);
             
-            _wfService.Avanzar("FlujoPruebas", EtapasFlujoInterno.IngresoDatosPaciente, entrada.NumeroTicket, User.Identity.Name);
+            _wfService.Avanzar("FlujoPruebas", EtapasFlujoInterno.AsignarTrabajo, entrada.NumeroTicket, User.Identity.Name);
 
 
             return Ok("Datos guardados");

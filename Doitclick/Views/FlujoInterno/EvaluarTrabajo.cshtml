@@ -2,7 +2,7 @@
     ViewData["Title"] = "Evaluar Trabajo";
 }
 
-<form id="frm-ingreso-datos-paciente">
+<form id="frm-generico">
     <div class="row">
         <div class="col-lg-12">
             <div id="demo-panel-network" class="panel">
@@ -74,7 +74,7 @@
                         <div class="col-sm-12">
                             <label for="RutPaciente">¿Se puede realizar este trabajo?</label>
                             <div class="input-group mar-btm">
-                                <select id="selResultadoEvaluacion" class="form-control">
+                                <select id="selResultadoEvaluacion" name="Resultado" class="form-control">
                                     <option value="S">Si</option>
                                     <option value="N">No</option>
                                 </select>
@@ -83,14 +83,15 @@
                     </div>
                     <div class="row reparos" style="display:none;">
                         <div class="col-sm-12 mar-btm">
-                            <label for="RutPaciente">Indique cuales son los motivos</label>
-                            <textarea id="monoqlo" class="form-control" rows="5" cols="20"></textarea>
+                            <label for="motivoReparo">Indique cuales son los motivos</label>
+                            <textarea id="motivoReparo" name="MotivoReparo" class="form-control" rows="5" cols="20"></textarea>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="text-right no-print">
+                                <input type="hidden" name="NumeroTicket" value="@ViewBag.Cotizacion.NumeroTicket" />
                                 <button class="btn btn-primary" id="btn-confirmar">Guardar y Avanzar</button>
                             </div>
                         </div>
@@ -138,6 +139,35 @@
                 } else {
                     $(".reparos").show();
                 }
+            });
+
+            $('#frm-generico').on('submit', function (e) {
+                e.preventDefault();
+                var model = $(this).serializeFormJSON();
+                console.log(model)
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/flujo-interno/ingreso-datos-paciente",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                }).done(function (data) {
+                    console.log(data);
+                    const user = "Chachacharles";
+                    const message = new Date().toString() + " Charly";
+                    connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+
+                }).fail(function (errMsg) {
+                    console.log(errMsg);
+
+                }).always(function () {
+                    $("#btn-confirmar").prop("enabled", true).text(initialLabelText);
+                    const user = "Chachacharles";
+                    const message = "Siempre paso por aqui";
+                    connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+                });
+
             });
         });
     </script>
