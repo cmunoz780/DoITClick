@@ -30,10 +30,11 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <h1>@ViewBag.tipoSelected</h1>
+                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Nombre</label>
-                                <input type="text" name="Nombre" class="form-control">
+                                <input type="text" value="@(ViewBag.Id > 0 ? ViewBag.Org.Nombre : "")" name="Nombre" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -42,7 +43,16 @@
                                 <select class="form-control" name="TipoOrganizacion">
                                     @foreach (var type in ViewBag.tiposList)
                                     {
-                                        <option value="@type">@type</option>
+
+                                        if (ViewBag.Id > 0 && ViewBag.Org.TipoOrganizacion == type)
+                                        {
+                                            <option value="@type" selected>@type</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@type">@type</option>
+                                        }
+
                                     }
                                 </select>
                                 
@@ -51,7 +61,8 @@
                     </div>
                 </div>
                 <div class="panel-footer text-right">
-                    <input type="hidden" name="Id" value="0" />
+                    <input type="hidden" name="Id" value="@ViewBag.Id" />
+                    <a href="/MantenedorOrganizacion/Listado" class="btn btn-primary" >Volver</a>
                     <button class="btn btn-success" type="submit">Guardar</button>
                 </div>
             </div>

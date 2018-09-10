@@ -43,8 +43,10 @@ namespace Doitclick.Controllers.Api
         }
 
         [Route("organizacion/eliminar/{id}")]
-        public IActionResult EliminarOrganzacion([FromRoute] string id)
+        public IActionResult EliminarOrganzacion([FromRoute] int id)
         {
+            _context.Organizaciones.Remove(_context.Organizaciones.Find(id));
+            _context.SaveChanges();
             return Ok("Eliminamos cauros: " + id);
         }
 

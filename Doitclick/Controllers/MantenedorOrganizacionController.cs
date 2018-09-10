@@ -25,8 +25,13 @@ namespace Doitclick.Controllers
             return View();
         }
 
-        public IActionResult Formulario()
+        public IActionResult Formulario(int id = 0)
         {
+            ViewBag.Id = id;
+
+            var Orga = _context.Organizaciones.FirstOrDefault(x => x.Id == id);
+            ViewBag.Org = Orga;
+            
             ViewBag.tiposList = (TipoOrganizacion[])Enum.GetValues(typeof(TipoOrganizacion));
             return View();
         }
