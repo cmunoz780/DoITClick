@@ -57,9 +57,7 @@ namespace Doitclick.Controllers.Api
 
             var rut = User.Identity.Name;
             var bandeja = _context.Clientes.ToList();
-
             
-
             BootstrapTableResult<Cliente> salida = new BootstrapTableResult<Cliente>();
             salida.total = bandeja.Count();
             salida.rows = bandeja.Skip(offset).Take(limit).ToList();

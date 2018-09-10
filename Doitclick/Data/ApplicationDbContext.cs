@@ -79,8 +79,8 @@ namespace Doitclick.Data
             builder.Entity<Organizacion>()
                 .Property(o => o.TipoOrganizacion)
                 .HasConversion(
-                    c => ((char)c).ToString(),
-                    c => (TipoOrganizacion)char.Parse(c)
+                    c => c.ToString(),
+                    c => (TipoOrganizacion)Enum.Parse(typeof(TipoOrganizacion), c)
                 )
                 .IsRequired();
 
