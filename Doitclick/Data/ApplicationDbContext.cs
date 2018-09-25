@@ -42,6 +42,8 @@ namespace Doitclick.Data
         public DbSet<MaterialMensual> MaterialesMensuales {get;set;}
         public DbSet<MovimientoMaterialMensual> MovimientosMaterialesMensuales{get;set;}
         public DbSet<TipoUnidadMedida> TiposUnidadMedidas{get;set;}
+        public DbSet<SolicitudMaterialMensual> SolicitudMaterialesMensuales {get;set;}
+        public DbSet<DetalleSolicitudMaterialMensual> DetalleSolicitudesMaterialesMensuales{get;set;}
        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
